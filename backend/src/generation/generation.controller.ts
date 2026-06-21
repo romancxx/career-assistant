@@ -8,7 +8,12 @@ export class GenerationController {
 
   @Post()
   generate(@Body() body: GenerateDto) {
-    return this.generation.generate(body.jd, body.directive, body.platform);
+    return this.generation.generate(
+      body.jd,
+      body.directive,
+      body.language,
+      body.person,
+    );
   }
 
   @Post('derive-rules')

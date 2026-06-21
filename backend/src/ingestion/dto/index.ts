@@ -1,4 +1,4 @@
-import { Platform } from '../../common/platform';
+import { Language, Person } from '../../common/voice';
 
 export type JobType = 'full-time' | 'contract';
 
@@ -6,7 +6,8 @@ export interface PitchInput {
   text: string;
   tags: string[];
   roleType?: string;
-  platform?: Platform;
+  language?: Language;
+  person?: Person;
 }
 
 export interface ExperienceInput {
@@ -29,5 +30,6 @@ export interface SkillInput {
 
 export interface RuleInput {
   text: string;
-  platform?: Platform;
+  language?: Language;
+  person?: Person;
 }

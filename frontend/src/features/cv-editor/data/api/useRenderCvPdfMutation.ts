@@ -1,0 +1,15 @@
+import {useMutation} from "@tanstack/react-query";
+
+import {ApiRoute} from "@/interfaces/api.interface";
+import type {Cv} from "@/interfaces/cv-pdf";
+
+import {client} from "@/lib/client";
+
+export function useRenderCvPdfMutation() {
+  return useMutation<Blob, Error, Cv>({
+    mutationFn: async cv => {
+      const {data} = await client.post<Blob>(ApiRoute.CvPdfRender, {cv}, {responseType: "blob"});
+      return data;
+    },
+  });
+}

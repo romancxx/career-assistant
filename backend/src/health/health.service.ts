@@ -70,7 +70,6 @@ export class HealthService {
   }> {
     const collectionName = 'health_check_test';
     try {
-      // Create test collection
       const existing = await this.qdrant.getCollections();
       const exists = existing.collections.some(
         (c) => c.name === collectionName,
@@ -83,7 +82,6 @@ export class HealthService {
         vectors: { size: 4, distance: 'Cosine' },
       });
 
-      // Insert a point
       await this.qdrant.upsert(collectionName, {
         wait: true,
         points: [
@@ -91,13 +89,11 @@ export class HealthService {
         ],
       });
 
-      // Query it back
       const results = await this.qdrant.search(collectionName, {
         vector: [0.1, 0.2, 0.3, 0.4],
         limit: 1,
       });
 
-      // Cleanup
       await this.qdrant.deleteCollection(collectionName);
 
       return {

@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { EmbeddingsService } from '../embeddings/embeddings.service';
 import { stripEmpty } from '../common/utils';
-import { normalizePlatform } from '../common/platform';
+import { normalizeLanguage, normalizePerson } from '../common/voice';
 import { QdrantService } from '../qdrant/qdrant.service';
 import { CollectionName } from '../qdrant/interfaces';
 import { PitchInput, ExperienceInput, SkillInput, RuleInput } from './dto';
@@ -15,7 +15,6 @@ export class IngestionService {
     private qdrant: QdrantService,
   ) {}
 
-  // ----- PITCHES -----
   async ingestPitch(input: PitchInput, id?: string) {
     const embedInput = `${input.roleType ?? ''}\n\n${input.text}`;
     const vector = await this.embeddings.embed(embedInput);
@@ -26,7 +25,8 @@ export class IngestionService {
         text: input.text,
         roleType: input.roleType ?? null,
         tags: input.tags ?? [],
-        platform: normalizePlatform(input.platform),
+        language: normalizeLanguage(input.language),
+        person: normalizePerson(input.person),
         createdAt: new Date().toISOString(),
       },
       id,
@@ -34,7 +34,6 @@ export class IngestionService {
     return { id: pointId, ...input };
   }
 
-  // ----- EXPERIENCES -----
   async ingestExperience(input: ExperienceInput, id?: string) {
     const embedInput = [
       input.role,
@@ -66,7 +65,6 @@ export class IngestionService {
     return { id: pointId, ...input };
   }
 
-  // ----- SKILLS -----
   async ingestSkill(input: SkillInput, id?: string) {
     const embedInput = [input.name, input.level].filter(Boolean).join(' — ');
 
@@ -85,7 +83,6 @@ export class IngestionService {
     return { id: pointId, ...input };
   }
 
-  // ----- RULE -----
   async ingestRule(input: RuleInput, id?: string) {
     const vector = await this.embeddings.embed(input.text);
     const pointId = await this.qdrant.upsert(
@@ -93,7 +90,8 @@ export class IngestionService {
       vector,
       {
         text: input.text,
-        platform: normalizePlatform(input.platform),
+        language: normalizeLanguage(input.language),
+        person: normalizePerson(input.person),
         createdAt: new Date().toISOString(),
       },
       id,
@@ -101,8 +99,6 @@ export class IngestionService {
     return { id: pointId, ...input };
   }
 
-  // ----- RESET -----
-  // Wipe every collection so a re-seed starts clean (no duplicates).
   async resetAll() {
     const collections: CollectionName[] = [
       'pitches',
@@ -115,7 +111,6 @@ export class IngestionService {
     }
   }
 
-  // ----- LIST -----
   async listAll() {
     const [pitches, experiences, skills, rules] = await Promise.all([
       this.qdrant.getAll('pitches'),
@@ -126,11 +121,7 @@ export class IngestionService {
     return { pitches, experiences, skills, rules };
   }
 
-  // ----- BACKUP -----
-  // Writes every collection to backend/data/<collection>.json in the same
-  // shape the seed script reads, so a wiped Qdrant can be restored with
-  // `npm run seed`. Intentionally drops ids/vectors/createdAt — vectors are
-  // re-embedded on re-seed.
+  // Drops ids/vectors/createdAt — vectors are re-embedded on re-seed.
   async backupToJson() {
     const data = await this.listAll();
     const dir = path.join(process.cwd(), 'data');
@@ -162,13 +153,15 @@ export class IngestionService {
           text: p.payload?.text,
           tags: p.payload?.tags,
           roleType: p.payload?.roleType,
-          platform: p.payload?.platform,
+          language: p.payload?.language,
+          person: p.payload?.person,
         }),
       ),
       'rules.json': data.rules.map((p) =>
         stripEmpty({
           text: p.payload?.text,
-          platform: p.payload?.platform,
+          language: p.payload?.language,
+          person: p.payload?.person,
         }),
       ),
     };
@@ -185,7 +178,6 @@ export class IngestionService {
     return { ok: true, dir, written };
   }
 
-  // ----- DELETE -----
   async delete(collection: CollectionName, id: string) {
     await this.qdrant.delete(collection, id);
     return { id, deleted: true };

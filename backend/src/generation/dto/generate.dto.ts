@@ -1,12 +1,10 @@
-import { Platform } from '../../common/platform';
+import { Language, Person } from '../../common/voice';
 
 export interface GenerateDto {
   jd: string;
-  // Optional one-off instruction for this generation, e.g. "mainly use my
-  // Acme experience". Honored like a rule, but only for this pitch.
   directive?: string;
-  // Which platform this pitch targets (language + voice). Defaults to toptal.
-  platform?: Platform;
+  language?: Language;
+  person?: Person;
 }
 
 export interface DeriveRulesDto {
@@ -14,5 +12,6 @@ export interface DeriveRulesDto {
   originalPitch: string;
   editedPitch: string;
   feedback: string;
-  platform?: Platform;
+  language?: Language;
+  person?: Person;
 }

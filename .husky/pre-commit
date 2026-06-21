@@ -1,0 +1,10 @@
+root="$(git rev-parse --show-toplevel)"
+
+# Only run a package's checks when it has staged changes.
+if ! git diff --cached --quiet -- frontend; then
+  (cd "$root/frontend" && npm run pre-commit)
+fi
+
+if ! git diff --cached --quiet -- backend; then
+  (cd "$root/backend" && npm run pre-commit)
+fi

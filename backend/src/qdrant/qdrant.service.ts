@@ -25,8 +25,7 @@ export class QdrantService implements OnModuleInit {
   }
 
   // Drop a collection and recreate it empty. Used by `seed --reset` so a
-  // re-seed starts from a clean slate instead of appending duplicates (every
-  // ingest generates a fresh id, so points never overwrite on re-seed).
+  // re-seed starts from a clean slate instead of appending duplicates.
   async recreateCollection(name: CollectionName) {
     await this.client.deleteCollection(name);
     await this.ensureCollection(name);

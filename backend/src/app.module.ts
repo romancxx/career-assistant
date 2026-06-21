@@ -5,6 +5,8 @@ import { IngestionModule } from './ingestion/ingestion.module';
 import { RetrievalModule } from './retrieval/retrieval.module';
 import { LlmModule } from './llm/llm.module';
 import { GenerationModule } from './generation/generation.module';
+import { CvModule } from './cv/cv.module';
+import { CvPdfModule } from './cv-pdf/cv-pdf.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { GenerationModule } from './generation/generation.module';
     RetrievalModule,
     LlmModule,
     GenerationModule,
+    CvModule,
+    CvPdfModule,
   ],
 })
 export class AppModule {}

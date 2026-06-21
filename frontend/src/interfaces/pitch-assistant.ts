@@ -1,11 +1,19 @@
 export type JobType = "full-time" | "contract";
 
-// A pitch's platform decides its language + voice (see backend common/platform).
-export type Platform = "toptal" | "malt";
+export type Language = "en" | "fr";
+export type Person = "first" | "third";
 
-export const PLATFORM_LABELS: Record<Platform, string> = {
-  toptal: "Toptal (EN, 3rd person)",
-  malt: "Malt (FR, 1st person)"
+export const DEFAULT_LANGUAGE: Language = "en";
+export const DEFAULT_PERSON: Person = "third";
+
+export const LANGUAGE_LABELS: Record<Language, string> = {
+  en: "English",
+  fr: "French",
+};
+
+export const PERSON_LABELS: Record<Person, string> = {
+  first: "1st person",
+  third: "3rd person",
 };
 
 export interface Experience {
@@ -33,20 +41,22 @@ export interface Pitch {
   text: string;
   tags: string[];
   roleType?: string;
-  platform?: Platform;
+  language?: Language;
+  person?: Person;
 }
 
 export interface Rule {
   id?: string;
   text: string;
-  platform?: Platform;
+  language?: Language;
+  person?: Person;
 }
 
 export interface ProfileData {
-  pitches: { id: string; payload: Pitch }[];
-  experiences: { id: string; payload: Experience }[];
-  skills: { id: string; payload: Skill }[];
-  rules: { id: string; payload: Rule }[];
+  pitches: {id: string; payload: Pitch}[];
+  experiences: {id: string; payload: Experience}[];
+  skills: {id: string; payload: Skill}[];
+  rules: {id: string; payload: Rule}[];
 }
 
 export interface JdAnalysis {
@@ -81,16 +91,69 @@ export interface DeriveRulesRequest {
   originalPitch: string;
   editedPitch: string;
   feedback: string;
-  platform?: Platform;
+  language?: Language;
+  person?: Person;
 }
 
 export interface GenerationResult {
   jdAnalysis: JdAnalysis;
   pitch: GeneratedPitch;
   metadata: {
-    retrievedExperiences: { id: string; company: string; role: string }[];
-    retrievedSkills: { name: string; level: string }[];
+    retrievedExperiences: {id: string; company: string; role: string}[];
+    retrievedSkills: {name: string; level: string}[];
     retrievedPitches: number;
     rules: number;
   };
+}
+
+export interface ProfileInfo {
+  fullName: string;
+  title: string;
+  email: string;
+  location: string;
+  linkedin: string;
+}
+
+export interface CvExperience {
+  companyName: string;
+  companyDescription?: string;
+  jobType: JobType;
+  role: string;
+  startDate: string;
+  endDate?: string;
+  context?: string;
+  achievements: string[];
+}
+
+export interface CvSkillGroup {
+  category: string;
+  skills: string[];
+}
+
+export interface CvEducation {
+  school: string;
+  degree: string;
+  startYear: string;
+  endYear: string;
+  notes?: string;
+}
+
+export interface CvDocument {
+  profile: ProfileInfo;
+  summary: string;
+  experiences: CvExperience[];
+  skills: CvSkillGroup[];
+  education: CvEducation[];
+  meta: {
+    generatedAt: string;
+    targetJdTitle?: string;
+    targetCompany?: string;
+    keywordsMatched: string[];
+    keywordsMissed: string[];
+  };
+}
+
+export interface CvProfileResponse {
+  profile: ProfileInfo;
+  education: CvEducation[];
 }

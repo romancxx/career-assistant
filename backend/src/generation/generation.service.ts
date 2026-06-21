@@ -15,7 +15,12 @@ import {
   JdAnalysis,
   RuleDerivationResult,
 } from './interfaces';
-import { Platform, normalizePlatform } from '../common/platform';
+import {
+  Language,
+  Person,
+  normalizeLanguage,
+  normalizePerson,
+} from '../common/voice';
 
 @Injectable()
 export class GenerationService {
@@ -27,26 +32,25 @@ export class GenerationService {
   async generate(
     jd: string,
     directive?: string,
-    platformInput?: Platform,
+    languageInput?: Language,
+    personInput?: Person,
   ): Promise<GenerationResult> {
-    const platform = normalizePlatform(platformInput);
+    const language = normalizeLanguage(languageInput);
+    const person = normalizePerson(personInput);
 
-    // Step 1: Analyze the JD
     const jdAnalysis = await this.llm.callJson<JdAnalysis>({
       system: JD_ANALYSIS_SYSTEM,
       user: buildJdAnalysisUserPrompt(jd),
       maxTokens: 1000,
-      temperature: 0.2, // low temp for analysis (we want consistency)
+      temperature: 0.2,
     });
 
-    // Step 2: Retrieve relevant context (pitches/rules scoped to the platform)
-    const context = await this.retrieval.retrieveForJd(jd, platform);
+    const context = await this.retrieval.retrieveForJd(jd, language, person);
 
-    // Step 3: Generate the pitch
     const pitchResponse = await this.llm.callJson<{
       pitch: GeneratedPitch;
     }>({
-      system: buildPitchGenerationSystem(platform),
+      system: buildPitchGenerationSystem(language, person),
       user: buildPitchGenerationUserPrompt({
         jd,
         jdAnalysis,
@@ -57,7 +61,7 @@ export class GenerationService {
         directive,
       }),
       maxTokens: 2000,
-      temperature: 0.7, // higher temp for creative writing
+      temperature: 0.7,
     });
 
     return {
@@ -79,26 +83,23 @@ export class GenerationService {
     };
   }
 
-  /**
-   * Feedback loop: given an AI pitch, the user's edited version, and their
-   * note, propose reusable writing rules. Does NOT persist anything — the
-   * candidates are returned for the user to approve before saving.
-   */
   async deriveRules(params: {
     jd: string;
     originalPitch: string;
     editedPitch: string;
     feedback: string;
-    platform?: Platform;
+    language?: Language;
+    person?: Person;
   }): Promise<RuleDerivationResult> {
     const result = await this.llm.callJson<RuleDerivationResult>({
       system: RULE_DERIVATION_SYSTEM,
       user: buildRuleDerivationUserPrompt({
         ...params,
-        platform: normalizePlatform(params.platform),
+        language: normalizeLanguage(params.language),
+        person: normalizePerson(params.person),
       }),
       maxTokens: 800,
-      temperature: 0.3, // low temp: we want consistent, conservative rules
+      temperature: 0.3,
     });
 
     return { rules: result.rules ?? [] };

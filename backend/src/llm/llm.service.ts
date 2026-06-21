@@ -38,7 +38,6 @@ export class LlmService {
         '\n\nIMPORTANT: Respond with ONLY valid JSON. No prose, no markdown fences, no commentary.',
     });
 
-    // Strip potential markdown fences just in case
     const cleaned = text.replace(/```json\n?|```\n?/g, '').trim();
 
     try {
