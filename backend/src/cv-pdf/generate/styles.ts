@@ -42,7 +42,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
 }
 
 h1 {
@@ -54,17 +53,17 @@ h1 {
 }
 
 .headline {
-  font-size: 13pt;
+  font-size: 12pt;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .contact {
-  margin-top: 8px;
-  font-size: 9.5pt;
+  margin-top: 4px;
+  font-size: 9pt;
   color: #333;
-  line-height: 1.45;
+  line-height: 1.3;
 }
 
 .photo {
@@ -76,8 +75,8 @@ h1 {
 }
 
 section {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid #aeaeae;
 }
 section:last-of-type { border-bottom: none; }
@@ -88,7 +87,7 @@ h2 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   break-after: avoid;
 }
 
@@ -99,8 +98,8 @@ p.summary { text-align: justify; padding-top: 10px; padding-bottom: 10px; }
 .entry { break-inside: avoid; }
 .entry-grouped { break-inside: auto; }
 .entry + .entry {
-  margin-top: 10px;
-  padding-top: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
   border-top: 1px solid #e6e6e6;
 }
 
@@ -108,18 +107,16 @@ p.summary { text-align: justify; padding-top: 10px; padding-bottom: 10px; }
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 10px;
   break-after: avoid;
 }
 
-.entry-title { font-size: 10.5pt; font-weight: 700; }
+.entry-title { font-size: 11pt; font-weight: 700; }
 .entry-dates { font-size: 10pt; font-weight: 700; white-space: nowrap; }
 
 .tagline {
   font-size: 9pt;
   font-style: italic;
   color: #555;
-  margin-top: 2px;
 }
 
 .entry-note {
@@ -130,13 +127,13 @@ p.summary { text-align: justify; padding-top: 10px; padding-bottom: 10px; }
   margin-top: 8px;
 }
 
-.engagement { break-inside: avoid; margin-top: 9px; }
-.engagement-title { font-size: 10pt; font-weight: 700; }
+.engagement { break-inside: auto; margin-top: 6px; }
+.engagement-title { font-size: 10.5pt; font-weight: 700; }
 
-ul.highlights { list-style: disc; padding-left: 18px; margin-top: 4px; }
-ul.highlights li { margin-bottom: 3px; break-inside: avoid; }
+ul.highlights { list-style: disc; padding-left: 18px; margin-top: 4px; font-size: 10pt; line-height: 1.3; }
+ul.highlights li { margin-bottom: 2.5px; break-inside: avoid; }
 
-.skill-group { margin-bottom: 4px; }
+.skill-group { margin-bottom: 2px; }
 .skill-group .label { font-weight: 700; }
 
 .edu-entry { break-inside: avoid; }
