@@ -2,6 +2,7 @@ export interface Cv {
   basics: Basics;
   summary: string;
   experience: ExperienceEntry[];
+  projects?: Project[];
   skills: SkillGroup[];
   education: Education[];
 }
@@ -23,7 +24,7 @@ export interface Link {
 export type ExperienceEntry = GroupedExperience | RoleEntry;
 
 export interface GroupedExperience {
-  kind: 'grouped';
+  kind: "grouped";
   title: string;
   start: string;
   end: string;
@@ -40,13 +41,20 @@ export interface Engagement {
 }
 
 export interface RoleEntry {
-  kind: 'role';
+  kind: "role";
   company: string;
   role: string;
   start: string;
   end: string;
   duration?: string;
   tagline?: string;
+  highlights: string[];
+}
+
+export interface Project {
+  name: string;
+  description?: string;
+  link?: string;
   highlights: string[];
 }
 

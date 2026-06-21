@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 
-const FONT_DIR = path.join(__dirname, 'fonts');
+const FONT_DIR = path.join(__dirname, "..", "fonts");
 
 function fontFace(file: string, weight: number): string {
-  const data = fs.readFileSync(path.join(FONT_DIR, file)).toString('base64');
+  const data = fs.readFileSync(path.join(FONT_DIR, file)).toString("base64");
   return `@font-face {
   font-family: 'Carlito';
   font-style: normal;
@@ -15,8 +15,8 @@ function fontFace(file: string, weight: number): string {
 
 export function renderStyles(): string {
   return `
-${fontFace('Carlito-Regular.ttf', 400)}
-${fontFace('Carlito-Bold.ttf', 700)}
+${fontFace("Carlito-Regular.ttf", 400)}
+${fontFace("Carlito-Bold.ttf", 700)}
 
 @page {
   size: A4;
@@ -42,11 +42,11 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;
+  gap: 16px;
 }
 
 h1 {
-  font-size: 29pt;
+  font-size: 25pt;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -58,7 +58,6 @@ h1 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-top: 4px;
 }
 
 .contact {
@@ -77,8 +76,8 @@ h1 {
 }
 
 section {
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #aeaeae;
 }
 section:last-of-type { border-bottom: none; }
@@ -89,19 +88,19 @@ h2 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   break-after: avoid;
 }
 
 .separator { border-bottom: 1px solid #e6e6e6; }
 
-p.summary { text-align: justify; padding-top: 12px; padding-bottom: 12px; }
+p.summary { text-align: justify; padding-top: 10px; padding-bottom: 10px; }
 
 .entry { break-inside: avoid; }
 .entry-grouped { break-inside: auto; }
 .entry + .entry {
-  margin-top: 11px;
-  padding-top: 11px;
+  margin-top: 10px;
+  padding-top: 10px;
   border-top: 1px solid #e6e6e6;
 }
 
@@ -109,7 +108,7 @@ p.summary { text-align: justify; padding-top: 12px; padding-bottom: 12px; }
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 12px;
+  gap: 10px;
   break-after: avoid;
 }
 
@@ -146,7 +145,7 @@ ul.highlights li { margin-bottom: 3px; break-inside: avoid; }
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 12px;
+  gap: 10px;
 }
 .edu-school { font-weight: 700; }
 .edu-program { font-weight: 700; font-size: 10pt; }

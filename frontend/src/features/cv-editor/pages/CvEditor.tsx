@@ -2,6 +2,7 @@ import {EditorHeader} from "@/features/cv-editor/components/header/EditorHeader"
 import {BasicsSection} from "@/features/cv-editor/components/section/BasicsSection";
 import {EducationSection} from "@/features/cv-editor/components/section/EducationSection";
 import {ExperienceSection} from "@/features/cv-editor/components/section/ExperienceSection";
+import {ProjectsSection} from "@/features/cv-editor/components/section/ProjectsSection";
 import {SkillsSection} from "@/features/cv-editor/components/section/SkillsSection";
 import {SummarySection} from "@/features/cv-editor/components/section/SummarySection";
 import {useCvEditor} from "@/features/cv-editor/data/useCvEditor";
@@ -41,6 +42,8 @@ export function CvEditor() {
       <SummarySection summary={cv.summary} update={update} />
 
       <ExperienceSection experience={cv.experience} update={update} />
+
+      <ProjectsSection projects={cv.projects} update={update} />
 
       <SkillsSection skills={cv.skills} update={update} />
 

@@ -2,6 +2,7 @@ export interface Cv {
   basics: Basics;
   summary: string;
   experience: ExperienceEntry[];
+  projects?: Project[];
   skills: SkillGroup[];
   education: Education[];
 }
@@ -47,6 +48,13 @@ export interface RoleEntry {
   end: string;
   duration?: string;
   tagline?: string;
+  highlights: string[];
+}
+
+export interface Project {
+  name: string;
+  description?: string;
+  link?: string;
   highlights: string[];
 }
 

@@ -370,17 +370,19 @@ POST /cv-pdf/render         # Body { "cv": Cv } → streams an application/pdf
 
 **Front-end:** the _Edit CV_ page (`/cv-editor`) loads the stored CV, lets you tweak text, bullets, and skills per application, and downloads the rendered PDF. Edits are in-memory (tailor → download); the canonical data lives in `cv.json`.
 
-**Data model** (`backend/src/cv-pdf/interfaces`): a single `Cv` with `basics`, `summary`, `experience`, `skills`, `education`. Experience entries are a discriminated union on `kind`:
+**Data model** (`backend/src/cv-pdf/interfaces`): a single `Cv` with `basics`, `summary`, `experience`, optional `projects`, `skills`, `education`. Experience entries are a discriminated union on `kind`:
 
 - `"role"` — a single company (`company`, `role`, `start`, `end`, `tagline?`, `highlights`)
 - `"grouped"` — one header + date range grouping several `engagements` (e.g. freelance), rendered as nested sub-entries
+
+`projects` is **optional** — omit the key (or leave it empty) and the section is skipped. When present it renders as a separate **Projects** section directly below Work Experience. Each project is `{ name, description?, link?, highlights[] }`.
 
 **Why it's ATS-safe:**
 
 - Strictly single-column; DOM source order equals visual reading order.
 - Semantic HTML (`header`, `section`, `h1`/`h2`, `ul`/`li`); real text only — no text in SVG/images, no absolutely-positioned text boxes.
 - Dates sit inline with the title (flex), not in a separately positioned box.
-- Standard headings: Summary, Work Experience, Technical Skills, Education.
+- Standard headings: Summary, Work Experience, Projects (optional), Technical Skills, Education.
 - **Carlito** font (Calibri-metric, SIL OFL) is base64-embedded via `@font-face`, so there is no server-side font substitution and the text layer copy-pastes cleanly.
 - A4 `@page` with controlled margins; `break-inside: avoid` on each entry/engagement, `break-after: avoid` on headings, and `orphans`/`widows` control.
 
