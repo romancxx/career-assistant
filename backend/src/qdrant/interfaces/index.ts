@@ -1,1 +1,1 @@
-export type CollectionName = 'pitches' | 'experiences' | 'skills' | 'rules';
+export type CollectionName = "pitches" | "experiences" | "skills" | "rules";

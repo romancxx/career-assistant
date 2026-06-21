@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { GenerationService } from './generation.service';
-import type { DeriveRulesDto, GenerateDto } from './dto/generate.dto';
+import { Body, Controller, Post } from "@nestjs/common";
 
-@Controller('generate')
+import { DeriveRulesDto } from "@/generation/dto/derive-rules-dto";
+import { GenerateDto } from "@/generation/dto/generate-dto";
+import { GenerationService } from "@/generation/generation.service";
+
+@Controller("generate")
 export class GenerationController {
   constructor(private readonly generation: GenerationService) {}
 
@@ -16,7 +18,7 @@ export class GenerationController {
     );
   }
 
-  @Post('derive-rules')
+  @Post("derive-rules")
   deriveRules(@Body() body: DeriveRulesDto) {
     return this.generation.deriveRules(body);
   }

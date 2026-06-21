@@ -1,12 +1,13 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { RetrievalService } from './retrieval.service';
-import type { RetrieveDto } from './dto/retrieve.dto';
+import { Body, Controller, Post } from "@nestjs/common";
 
-@Controller('retrieval')
+import { RetrieveDto } from "@/retrieval/dto/retrieve-dto";
+import { RetrievalService } from "@/retrieval/retrieval.service";
+
+@Controller("retrieval")
 export class RetrievalController {
   constructor(private readonly retrieval: RetrievalService) {}
 
-  @Post('preview')
+  @Post("preview")
   preview(@Body() body: RetrieveDto) {
     return this.retrieval.retrieveForJd(body.jd);
   }

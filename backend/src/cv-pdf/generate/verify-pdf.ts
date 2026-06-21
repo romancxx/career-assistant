@@ -1,10 +1,10 @@
-import { PDFParse } from 'pdf-parse';
+import { PDFParse } from "pdf-parse";
 
 export const EXPECTED_SECTIONS = [
-  'Summary',
-  'Work Experience',
-  'Technical Skills',
-  'Education',
+  "Summary",
+  "Work Experience",
+  "Technical Skills",
+  "Education",
 ] as const;
 
 export async function extractText(pdf: Buffer): Promise<string> {

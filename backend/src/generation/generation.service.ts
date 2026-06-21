@@ -1,6 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { LlmService } from '../llm/llm.service';
-import { RetrievalService } from '../retrieval/retrieval.service';
+import { Injectable } from "@nestjs/common";
+
+import {
+  GeneratedPitch,
+  GenerationResult,
+  JdAnalysis,
+  RuleDerivationResult,
+} from "@/generation/interfaces";
+
+import {
+  Language,
+  Person,
+  normalizeLanguage,
+  normalizePerson,
+} from "@/common/voice";
 import {
   JD_ANALYSIS_SYSTEM,
   RULE_DERIVATION_SYSTEM,
@@ -8,19 +20,9 @@ import {
   buildPitchGenerationSystem,
   buildPitchGenerationUserPrompt,
   buildRuleDerivationUserPrompt,
-} from './prompts';
-import {
-  GeneratedPitch,
-  GenerationResult,
-  JdAnalysis,
-  RuleDerivationResult,
-} from './interfaces';
-import {
-  Language,
-  Person,
-  normalizeLanguage,
-  normalizePerson,
-} from '../common/voice';
+} from "@/generation/prompts";
+import { LlmService } from "@/llm/llm.service";
+import { RetrievalService } from "@/retrieval/retrieval.service";
 
 @Injectable()
 export class GenerationService {

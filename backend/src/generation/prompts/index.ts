@@ -1,11 +1,12 @@
-import { JdAnalysis } from '../interfaces';
-import { Language, Person, VOICE_CONFIG } from '../../common/voice';
+import { JdAnalysis } from "@/generation/interfaces";
 import {
   RetrievedExperience,
   RetrievedPitch,
   RetrievedSkill,
   RetrievedRule,
-} from '../../retrieval/interfaces';
+} from "@/retrieval/interfaces";
+
+import { Language, Person, VOICE_CONFIG } from "@/common/voice";
 
 export const JD_ANALYSIS_SYSTEM = `
 You are an expert at analyzing job descriptions. Your job is to extract structured information that will be used to craft a personalized job pitch.
@@ -109,7 +110,7 @@ ${originalPitch}
 ${editedPitch}
 
 ## USER'S FEEDBACK NOTE
-${feedback || '(no note provided — infer from the diff)'}
+${feedback || "(no note provided — infer from the diff)"}
 
 ---
 
@@ -136,36 +137,36 @@ export const buildPitchGenerationUserPrompt = (params: {
   const experiencesBlock = experiences
     .map(
       (e, i) => `
-[Experience ${i + 1}] ${e.role} @ ${e.companyName} (${e.startDate} → ${e.endDate ?? 'present'})
-Stack: ${e.stack.join(', ')}
-${e.companyDescription ? `Company: ${e.companyDescription}` : ''}
+[Experience ${i + 1}] ${e.role} @ ${e.companyName} (${e.startDate} → ${e.endDate ?? "present"})
+Stack: ${e.stack.join(", ")}
+${e.companyDescription ? `Company: ${e.companyDescription}` : ""}
 Achievements:
-${e.achievements.map((a) => `  - ${a}`).join('\n')}
-${e.context ? `Context: ${e.context}` : ''}
+${e.achievements.map((a) => `  - ${a}`).join("\n")}
+${e.context ? `Context: ${e.context}` : ""}
 `,
     )
-    .join('\n');
+    .join("\n");
 
   const skillsBlock = skills
     .map(
       (s) =>
-        `- ${s.name} (${s.level}${s.yearsOfExperience ? `, ${s.yearsOfExperience}y` : ''})`,
+        `- ${s.name} (${s.level}${s.yearsOfExperience ? `, ${s.yearsOfExperience}y` : ""})`,
     )
-    .join('\n');
+    .join("\n");
 
   const pastPitchesBlock = pastPitches
     .map(
       (p, i) =>
-        `[Past Pitch ${i + 1}] (for: ${p.roleType ?? 'unknown role'})\n${p.text}`,
+        `[Past Pitch ${i + 1}] (for: ${p.roleType ?? "unknown role"})\n${p.text}`,
     )
-    .join('\n\n');
+    .join("\n\n");
 
-  const rulesBlock = rules.map((s) => `- ${s.text}`).join('\n');
+  const rulesBlock = rules.map((s) => `- ${s.text}`).join("\n");
 
   const directiveBlock = directive?.trim()
     ? `\n## USER'S DIRECTIVE FOR THIS PITCH (highest priority — follow it as long as it doesn't require inventing anything)
 ${directive.trim()}\n`
-    : '';
+    : "";
 
   return `## JOB DESCRIPTION
 ${jd}
@@ -173,10 +174,10 @@ ${directiveBlock}
 
 ## JD ANALYSIS
 - Role: ${jdAnalysis.roleTitle}
-- Required: ${jdAnalysis.requiredSkills.join(', ')}
-- Nice-to-have: ${jdAnalysis.niceToHaveSkills.join(', ')}
+- Required: ${jdAnalysis.requiredSkills.join(", ")}
+- Nice-to-have: ${jdAnalysis.niceToHaveSkills.join(", ")}
 - Tone to match: ${jdAnalysis.tone}
-- Things to address carefully: ${jdAnalysis.redFlags.join('; ') || 'none'}
+- Things to address carefully: ${jdAnalysis.redFlags.join("; ") || "none"}
 
 ## USER'S RELEVANT EXPERIENCES (use these for grounding — never invent others)
 ${experiencesBlock}
@@ -185,10 +186,10 @@ ${experiencesBlock}
 ${skillsBlock}
 
 ## USER'S PAST PITCHES (study these for voice, tone, structure)
-${pastPitchesBlock || '(no past pitches yet)'}
+${pastPitchesBlock || "(no past pitches yet)"}
 
 ## USER'S RULES (follow strictly)
-${rulesBlock || '(no rules)'}
+${rulesBlock || "(no rules)"}
 
 ---
 

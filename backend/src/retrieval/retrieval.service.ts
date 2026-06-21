@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { EmbeddingsService } from '../embeddings/embeddings.service';
-import { QdrantService } from '../qdrant/qdrant.service';
+import { Injectable } from "@nestjs/common";
+
+import { RetrievalContext } from "@/retrieval/interfaces";
+
 import {
   DEFAULT_LANGUAGE,
   DEFAULT_PERSON,
   Language,
   Person,
-} from '../common/voice';
-import { RetrievalContext } from './interfaces';
+} from "@/common/voice";
+import { EmbeddingsService } from "@/embeddings/embeddings.service";
+import { QdrantService } from "@/qdrant/qdrant.service";
 
 @Injectable()
 export class RetrievalService {
@@ -25,14 +27,14 @@ export class RetrievalService {
         should: [
           {
             must: [
-              { key: 'language', match: { value: language } },
-              { key: 'person', match: { value: person } },
+              { key: "language", match: { value: language } },
+              { key: "person", match: { value: person } },
             ],
           },
           {
             must: [
-              { is_empty: { key: 'language' } },
-              { is_empty: { key: 'person' } },
+              { is_empty: { key: "language" } },
+              { is_empty: { key: "person" } },
             ],
           },
         ],
@@ -40,8 +42,8 @@ export class RetrievalService {
     }
     return {
       must: [
-        { key: 'language', match: { value: language } },
-        { key: 'person', match: { value: person } },
+        { key: "language", match: { value: language } },
+        { key: "person", match: { value: person } },
       ],
     };
   }
@@ -56,10 +58,10 @@ export class RetrievalService {
     const voiceFilter = this.voiceFilter(language, person);
     const [expResults, skillResults, pitchResults, allRules] =
       await Promise.all([
-        this.qdrant.search('experiences', jdVector, 3),
-        this.qdrant.search('skills', jdVector, 8),
-        this.qdrant.search('pitches', jdVector, 3, voiceFilter),
-        this.qdrant.getAll('rules', voiceFilter),
+        this.qdrant.search("experiences", jdVector, 3),
+        this.qdrant.search("skills", jdVector, 8),
+        this.qdrant.search("pitches", jdVector, 3, voiceFilter),
+        this.qdrant.getAll("rules", voiceFilter),
       ]);
 
     return {

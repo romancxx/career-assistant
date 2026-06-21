@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import Anthropic from '@anthropic-ai/sdk';
-import { QdrantClient } from '@qdrant/js-client-rest';
-import axios from 'axios';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import Anthropic from "@anthropic-ai/sdk";
+import { QdrantClient } from "@qdrant/js-client-rest";
+import axios from "axios";
 
 @Injectable()
 export class HealthService {
@@ -12,12 +12,12 @@ export class HealthService {
 
   constructor(private config: ConfigService) {
     this.anthropic = new Anthropic({
-      apiKey: this.config.get<string>('ANTHROPIC_API_KEY'),
+      apiKey: this.config.get<string>("ANTHROPIC_API_KEY"),
     });
     this.qdrant = new QdrantClient({
-      url: this.config.get<string>('QDRANT_URL'),
+      url: this.config.get<string>("QDRANT_URL"),
     });
-    this.ollamaUrl = this.config.get<string>('OLLAMA_URL');
+    this.ollamaUrl = this.config.get<string>("OLLAMA_URL");
   }
 
   async checkClaude(): Promise<{
@@ -27,17 +27,17 @@ export class HealthService {
   }> {
     try {
       const response = await this.anthropic.messages.create({
-        model: 'claude-haiku-4-5-20251001',
+        model: "claude-haiku-4-5-20251001",
         max_tokens: 50,
         messages: [
           {
-            role: 'user',
+            role: "user",
             content: 'Say "hello from Claude" and nothing else.',
           },
         ],
       });
       const text =
-        response.content[0].type === 'text' ? response.content[0].text : '';
+        response.content[0].type === "text" ? response.content[0].text : "";
       return { ok: true, message: text };
     } catch (err) {
       return { ok: false, error: (err as Error)?.message };
@@ -53,8 +53,8 @@ export class HealthService {
       const response = await axios.post<{ embedding: number[] }>(
         `${this.ollamaUrl}/api/embeddings`,
         {
-          model: 'nomic-embed-text',
-          prompt: 'hello world',
+          model: "nomic-embed-text",
+          prompt: "hello world",
         },
       );
       return { ok: true, dimensions: response.data.embedding.length };
@@ -68,7 +68,7 @@ export class HealthService {
     message?: string;
     error?: string;
   }> {
-    const collectionName = 'health_check_test';
+    const collectionName = "health_check_test";
     try {
       const existing = await this.qdrant.getCollections();
       const exists = existing.collections.some(
@@ -79,13 +79,13 @@ export class HealthService {
       }
 
       await this.qdrant.createCollection(collectionName, {
-        vectors: { size: 4, distance: 'Cosine' },
+        vectors: { size: 4, distance: "Cosine" },
       });
 
       await this.qdrant.upsert(collectionName, {
         wait: true,
         points: [
-          { id: 1, vector: [0.1, 0.2, 0.3, 0.4], payload: { text: 'test' } },
+          { id: 1, vector: [0.1, 0.2, 0.3, 0.4], payload: { text: "test" } },
         ],
       });
 

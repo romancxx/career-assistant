@@ -1,15 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { LlmService } from '../llm/llm.service';
-import { QdrantService } from '../qdrant/qdrant.service';
-import { ProfileService } from './profile.service';
+import { Injectable } from "@nestjs/common";
+
+import { CvDocument, CvTailoredParts } from "@/cv/interfaces";
+import { JdAnalysis } from "@/generation/interfaces";
+
+import { ProfileService } from "@/cv/profile.service";
+import { CV_TAILORING_SYSTEM, buildCvUserPrompt } from "@/cv/prompts";
 import {
   JD_ANALYSIS_SYSTEM,
   buildJdAnalysisUserPrompt,
-} from '../generation/prompts';
-import { JdAnalysis } from '../generation/interfaces';
-import { ExperienceInput, SkillInput } from '../ingestion/dto';
-import { CV_TAILORING_SYSTEM, buildCvUserPrompt } from './prompts';
-import { CvDocument, CvTailoredParts } from './interfaces';
+} from "@/generation/prompts";
+import { ExperienceDto } from "@/ingestion/dto/experience-dto";
+import { SkillDto } from "@/ingestion/dto/skill-dto";
+import { LlmService } from "@/llm/llm.service";
+import { QdrantService } from "@/qdrant/qdrant.service";
 
 @Injectable()
 export class CvService {
@@ -29,8 +32,8 @@ export class CvService {
 
     // CVs need full context — LLM selects; no vector search here.
     const [experiences, skills] = await Promise.all([
-      this.getAll<ExperienceInput>('experiences'),
-      this.getAll<SkillInput>('skills'),
+      this.getAll<ExperienceDto>("experiences"),
+      this.getAll<SkillDto>("skills"),
     ]);
 
     const tailored = await this.llm.callJson<CvTailoredParts>({
@@ -70,7 +73,7 @@ export class CvService {
     };
   }
 
-  private async getAll<T>(collection: 'experiences' | 'skills'): Promise<T[]> {
+  private async getAll<T>(collection: "experiences" | "skills"): Promise<T[]> {
     const points = await this.qdrant.getAll(collection);
     return points.map((p) => p.payload as T);
   }
@@ -85,11 +88,11 @@ export class CvService {
         cv.summary,
         ...cv.experiences.flatMap((e) => [
           e.role,
-          e.companyDescription ?? '',
+          e.companyDescription ?? "",
           ...e.achievements,
         ]),
         ...cv.skills.flatMap((g) => g.skills),
-      ].join(' '),
+      ].join(" "),
     );
 
     const matched: string[] = [];
@@ -109,7 +112,7 @@ export class CvService {
   // Strips parenthetical qualifiers ("Detox (testing)" → "Detox"), then matches
   // the phrase or any sub-token (length ≥ 3) against the CV text.
   private keywordInHaystack(keyword: string, haystack: string): boolean {
-    const base = keyword.replace(/\([^)]*\)/g, ' ');
+    const base = keyword.replace(/\([^)]*\)/g, " ");
     const candidates = [base, ...base.split(/[\s,/&+]+/)];
     return candidates.some((c) => {
       const n = this.normalize(c);
@@ -118,6 +121,6 @@ export class CvService {
   }
 
   private normalize(text: string): string {
-    return text.toLowerCase().replace(/[^a-z0-9]/g, '');
+    return text.toLowerCase().replace(/[^a-z0-9]/g, "");
   }
 }

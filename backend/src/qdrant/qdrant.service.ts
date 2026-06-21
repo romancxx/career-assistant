@@ -1,31 +1,33 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { QdrantClient } from '@qdrant/js-client-rest';
-import { randomUUID } from 'crypto';
-import { CollectionName } from './interfaces';
+import { randomUUID } from "crypto";
+
+import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+import { CollectionName } from "@/qdrant/interfaces";
 
 const VECTOR_SIZE = 768; // nomic-embed-text dimension
 
 @Injectable()
 export class QdrantService implements OnModuleInit {
+  private readonly logger = new Logger(QdrantService.name);
   private client: QdrantClient;
 
   constructor(private config: ConfigService) {
     this.client = new QdrantClient({
-      url: this.config.get<string>('QDRANT_URL'),
+      url: this.config.get<string>("QDRANT_URL"),
     });
   }
 
   async onModuleInit() {
     // Auto-create collections on startup if missing
-    await this.ensureCollection('pitches');
-    await this.ensureCollection('experiences');
-    await this.ensureCollection('skills');
-    await this.ensureCollection('rules');
+    await this.ensureCollection("pitches");
+    await this.ensureCollection("experiences");
+    await this.ensureCollection("skills");
+    await this.ensureCollection("rules");
   }
 
-  // Drop a collection and recreate it empty. Used by `seed --reset` so a
-  // re-seed starts from a clean slate instead of appending duplicates.
+  // Drop a collection and recreate it empty. Used by `seed --reset`
   async recreateCollection(name: CollectionName) {
     await this.client.deleteCollection(name);
     await this.ensureCollection(name);
@@ -36,9 +38,9 @@ export class QdrantService implements OnModuleInit {
     const exists = existing.collections.some((c) => c.name === name);
     if (!exists) {
       await this.client.createCollection(name, {
-        vectors: { size: VECTOR_SIZE, distance: 'Cosine' },
+        vectors: { size: VECTOR_SIZE, distance: "Cosine" },
       });
-      console.log(`✅ Created collection: ${name}`);
+      this.logger.log(`Created collection: ${name}`);
     }
   }
 

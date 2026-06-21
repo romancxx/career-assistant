@@ -1,4 +1,4 @@
-import { JobType } from '../../ingestion/dto';
+import { JobType } from "@/ingestion/dto/experience-dto";
 
 export interface CvDocument {
   profile: ProfileInfo;

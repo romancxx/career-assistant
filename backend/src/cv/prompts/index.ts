@@ -1,12 +1,14 @@
-import { JdAnalysis } from '../../generation/interfaces';
-import { ExperienceInput, SkillInput } from '../../ingestion/dto';
+import { JdAnalysis } from "@/generation/interfaces";
+
+import { ExperienceDto } from "@/ingestion/dto/experience-dto";
+import { SkillDto } from "@/ingestion/dto/skill-dto";
 
 export const CV_SKILL_CATEGORIES = [
-  'Mobile',
-  'Web',
-  'Backend',
-  'Databases',
-  'DevOps',
+  "Mobile",
+  "Web",
+  "Backend",
+  "Databases",
+  "DevOps",
 ] as const;
 
 export const CV_TAILORING_SYSTEM = `
@@ -25,7 +27,7 @@ WHAT YOU MAY DO:
 - Group the source skills into the fixed categories and order skills within each group by JD relevance. Omit skills clearly irrelevant to the role.
 
 SKILL CATEGORIES (use exactly these names, in this order; skip a category if it ends up empty):
-${CV_SKILL_CATEGORIES.join(' · ')}
+${CV_SKILL_CATEGORIES.join(" · ")}
 
 OUTPUT CONSTRAINTS:
 - summary: 50–90 words.
@@ -46,29 +48,29 @@ Return JSON of this exact shape:
 export const buildCvUserPrompt = (params: {
   jd: string;
   jdAnalysis: JdAnalysis;
-  experiences: ExperienceInput[];
-  skills: SkillInput[];
+  experiences: ExperienceDto[];
+  skills: SkillDto[];
   title: string;
 }): string => {
   const { jd, jdAnalysis, experiences, skills, title } = params;
 
   const experiencesBlock = experiences
     .map((e, i) => {
-      const dates = `${e.startDate} – ${e.endDate ?? 'present'}`;
+      const dates = `${e.startDate} – ${e.endDate ?? "present"}`;
       return [
         `[${i + 1}] ${e.companyName} — ${e.role} (${e.jobType}, ${dates})`,
         e.companyDescription ? `  about: ${e.companyDescription}` : null,
         e.context ? `  context: ${e.context}` : null,
-        `  stack: ${e.stack.join(', ')}`,
-        `  achievements:`,
+        `  stack: ${e.stack.join(", ")}`,
+        "  achievements:",
         ...e.achievements.map((a) => `    - ${a}`),
       ]
         .filter(Boolean)
-        .join('\n');
+        .join("\n");
     })
-    .join('\n\n');
+    .join("\n\n");
 
-  const skillsBlock = skills.map((s) => `- ${s.name} (${s.level})`).join('\n');
+  const skillsBlock = skills.map((s) => `- ${s.name} (${s.level})`).join("\n");
 
   return `TARGET ROLE: ${jdAnalysis.roleTitle} (${jdAnalysis.roleType})
 CANDIDATE HEADLINE: ${title}
@@ -79,9 +81,9 @@ ${jd}
 ---
 
 JD ANALYSIS:
-- requiredSkills: ${jdAnalysis.requiredSkills.join(', ')}
-- niceToHaveSkills: ${jdAnalysis.niceToHaveSkills.join(', ')}
-- responsibilities: ${jdAnalysis.responsibilities.join('; ')}
+- requiredSkills: ${jdAnalysis.requiredSkills.join(", ")}
+- niceToHaveSkills: ${jdAnalysis.niceToHaveSkills.join(", ")}
+- responsibilities: ${jdAnalysis.responsibilities.join("; ")}
 
 SOURCE EXPERIENCES (the ONLY experiences you may use; stack is context for tailoring, do not output it):
 ${experiencesBlock}

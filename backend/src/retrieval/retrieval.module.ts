@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
-import { RetrievalController } from './retrieval.controller';
-import { RetrievalService } from './retrieval.service';
-import { EmbeddingsModule } from '../embeddings/embeddings.module';
-import { QdrantModule } from '../qdrant/qdrant.module';
+import { Module } from "@nestjs/common";
+
+import { EmbeddingsModule } from "@/embeddings/embeddings.module";
+import { QdrantModule } from "@/qdrant/qdrant.module";
+import { RetrievalController } from "@/retrieval/retrieval.controller";
+import { RetrievalService } from "@/retrieval/retrieval.service";
 
 @Module({
   imports: [EmbeddingsModule, QdrantModule],

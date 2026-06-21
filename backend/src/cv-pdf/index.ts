@@ -1,14 +1,14 @@
-export * from './interfaces';
+export * from "@/cv-pdf/interfaces";
 export {
   loadCv,
   saveCv,
   validateCv,
   DEFAULT_CV_PATH,
-} from './generate/cv-loader';
-export { renderCvHtml } from './generate/template';
-export { renderCvPdf } from './generate/render-pdf';
+} from "@/cv-pdf/generate/cv-loader";
+export { renderCvHtml } from "@/cv-pdf/generate/template";
+export { renderCvPdf } from "@/cv-pdf/generate/render-pdf";
 export {
   extractText,
   checkSectionOrder,
   EXPECTED_SECTIONS,
-} from './generate/verify-pdf';
+} from "@/cv-pdf/generate/verify-pdf";

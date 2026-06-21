@@ -5,7 +5,7 @@ export interface JdAnalysis {
   niceToHaveSkills: string[];
   responsibilities: string[];
   companyContext: string;
-  tone: 'formal' | 'casual' | 'technical' | 'startup';
+  tone: "formal" | "casual" | "technical" | "startup";
   redFlags: string[]; // things to address carefully (e.g., "10+ years required")
 }
 

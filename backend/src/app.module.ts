@@ -1,16 +1,18 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { HealthModule } from './health/health.module';
-import { IngestionModule } from './ingestion/ingestion.module';
-import { RetrievalModule } from './retrieval/retrieval.module';
-import { LlmModule } from './llm/llm.module';
-import { GenerationModule } from './generation/generation.module';
-import { CvModule } from './cv/cv.module';
-import { CvPdfModule } from './cv-pdf/cv-pdf.module';
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+
+import { validateEnv } from "@/config/env.validation";
+import { CvModule } from "@/cv/cv.module";
+import { CvPdfModule } from "@/cv-pdf/cv-pdf.module";
+import { GenerationModule } from "@/generation/generation.module";
+import { HealthModule } from "@/health/health.module";
+import { IngestionModule } from "@/ingestion/ingestion.module";
+import { LlmModule } from "@/llm/llm.module";
+import { RetrievalModule } from "@/retrieval/retrieval.module";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, validate: validateEnv }),
     HealthModule,
     IngestionModule,
     RetrievalModule,
