@@ -1,117 +1,112 @@
-import type {
-  ExperienceEntry,
-  RoleEntry,
-  GroupedExperience,
-} from "@/interfaces/cv-pdf";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 
-import {EngagementCard} from "@/features/cv-editor/components/card/EngagementCard";
-import {Highlights} from "@/features/cv-editor/components/experience/Highlights";
-import {Field} from "@/features/cv-editor/components/input/Field";
+import type { Cv } from "@/interfaces/cv-pdf";
+
+import { EngagementCard } from "@/features/cv-editor/components/card/EngagementCard";
+import { HighlightsArray } from "@/features/cv-editor/components/experience/HighlightsArray";
+import { FieldInput } from "@/components/input/FieldInput";
 
 interface Props {
-  entry: ExperienceEntry;
-  onChange: (fn: (draft: ExperienceEntry) => void) => void;
+  index: number;
+  kind: "grouped" | "role";
 }
 
-export function ExperienceCard({entry, onChange}: Props) {
-  if (entry.kind === "role") {
-    const e = entry;
+export function ExperienceCard({ index, kind }: Props) {
+  const { control } = useFormContext<Cv>();
+
+  if (kind === "role") {
     return (
       <div className="border border-slate-200 rounded-md p-4 bg-white">
         <div className="grid grid-cols-2 gap-3">
-          <Field
-            label="Company"
-            value={e.company}
-            onChange={v => onChange(d => ((d as RoleEntry).company = v))}
+          <Controller
+            control={control}
+            name={`experience.${index}.company`}
+            render={({ field }) => <FieldInput {...field} label="Company" />}
           />
 
-          <Field
-            label="Role"
-            value={e.role}
-            onChange={v => onChange(d => ((d as RoleEntry).role = v))}
+          <Controller
+            control={control}
+            name={`experience.${index}.role`}
+            render={({ field }) => <FieldInput {...field} label="Role" />}
           />
 
-          <Field
-            label="Start"
-            value={e.start}
-            onChange={v => onChange(d => ((d as RoleEntry).start = v))}
+          <Controller
+            control={control}
+            name={`experience.${index}.start`}
+            render={({ field }) => <FieldInput {...field} label="Start" />}
           />
 
-          <Field
-            label="End"
-            value={e.end}
-            onChange={v => onChange(d => ((d as RoleEntry).end = v))}
+          <Controller
+            control={control}
+            name={`experience.${index}.end`}
+            render={({ field }) => <FieldInput {...field} label="End" />}
           />
         </div>
 
         <div className="mt-3">
-          <Field
-            label="Tagline"
-            value={e.tagline ?? ""}
-            onChange={v =>
-              onChange(d => ((d as RoleEntry).tagline = v || undefined))
-            }
+          <Controller
+            control={control}
+            name={`experience.${index}.tagline`}
+            render={({ field }) => (
+              <FieldInput {...field} value={field.value ?? ""} label="Tagline" />
+            )}
           />
         </div>
 
-        <Highlights
-          items={e.highlights}
-          onChange={fn => onChange(d => fn((d as RoleEntry).highlights))}
-        />
+        <HighlightsArray name={`experience.${index}.highlights`} />
       </div>
     );
   }
 
-  const g = entry;
   return (
     <div className="border border-slate-200 rounded-md p-4 bg-white">
       <div className="grid grid-cols-2 gap-3">
-        <Field
-          label="Title"
-          value={g.title}
-          onChange={v =>
-            onChange(d => ((d as GroupedExperience).title = v))
-          }
+        <Controller
+          control={control}
+          name={`experience.${index}.title`}
+          render={({ field }) => <FieldInput {...field} label="Title" />}
         />
 
         <div />
 
-        <Field
-          label="Start"
-          value={g.start}
-          onChange={v =>
-            onChange(d => ((d as GroupedExperience).start = v))
-          }
+        <Controller
+          control={control}
+          name={`experience.${index}.start`}
+          render={({ field }) => <FieldInput {...field} label="Start" />}
         />
 
-        <Field
-          label="End"
-          value={g.end}
-          onChange={v => onChange(d => ((d as GroupedExperience).end = v))}
+        <Controller
+          control={control}
+          name={`experience.${index}.end`}
+          render={({ field }) => <FieldInput {...field} label="End" />}
         />
       </div>
 
       <div className="mt-3">
-        <Field
-          label="Note"
-          value={g.note ?? ""}
-          onChange={v =>
-            onChange(d => ((d as GroupedExperience).note = v || undefined))
-          }
+        <Controller
+          control={control}
+          name={`experience.${index}.note`}
+          render={({ field }) => <FieldInput {...field} value={field.value ?? ""} label="Note" />}
         />
       </div>
 
-      <div className="mt-4 space-y-4 pl-4 border-l-2 border-slate-100">
-        {g.engagements.map((eng, i) => (
-          <EngagementCard
-            key={i}
-            engagement={eng}
-            onChange={fn =>
-              onChange(d => fn((d as GroupedExperience).engagements[i]))
-            }
-          />
-        ))}
-      </div>
+      <EngagementsList experienceIndex={index} />
+    </div>
+  );
+}
+
+function EngagementsList({ experienceIndex }: { experienceIndex: number }) {
+  const { control } = useFormContext<Cv>();
+  const { fields } = useFieldArray({
+    control,
+    name: `experience.${experienceIndex}.engagements`
+  });
+
+  return (
+    <div className="mt-4 space-y-4 pl-4 border-l-2 border-slate-100">
+      {fields.map((engagement, i) => (
+        <EngagementCard key={engagement.id} experienceIndex={experienceIndex} index={i} />
+      ))}
     </div>
   );
 }

@@ -5,7 +5,7 @@ export const ApiRoute = {
 
   // cv
   CvTailor: "/cv/tailor",
-  CvPdfData: "/cv-pdf/data",
+  CvPdf: "/cv-pdf",
   CvPdfRender: "/cv-pdf/render",
 
   // ingestion
@@ -14,7 +14,7 @@ export const ApiRoute = {
   IngestRule: "/ingest/rule",
   IngestPitch: "/ingest/pitch",
   IngestSkill: "/ingest/skill",
-  IngestExperience: "/ingest/experience",
+  IngestExperience: "/ingest/experience"
 } as const;
 
 export type ApiRoute = (typeof ApiRoute)[keyof typeof ApiRoute];

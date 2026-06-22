@@ -1,8 +1,12 @@
 import { plainToInstance } from "class-transformer";
-import { IsNotEmpty, IsOptional, IsString, IsUrl, validateSync } from "class-validator";
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  validateSync,
+} from "class-validator";
 
-// Validated at boot via ConfigModule's `validate` hook so a misconfigured
-// environment fails fast with a clear message instead of at first request.
 class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
@@ -23,7 +27,9 @@ class EnvironmentVariables {
   CORS_ORIGIN?: string;
 }
 
-export function validateEnv(config: Record<string, unknown>): EnvironmentVariables {
+export function validateEnv(
+  config: Record<string, unknown>,
+): EnvironmentVariables {
   const validated = plainToInstance(EnvironmentVariables, config, {
     enableImplicitConversion: true,
   });

@@ -1,5 +1,5 @@
-import {RuleCandidateCard} from "@/features/pitch-generation/components/card/RuleCandidateCard";
-import type {RuleCandidateState} from "@/features/pitch-generation/data/usePitchGenerator";
+import { RuleCandidateCard } from "@/features/pitch-generation/components/card/RuleCandidateCard";
+import type { RuleCandidateState } from "@/features/pitch-generation/data/usePitchGenerator";
 
 interface Props {
   editing: boolean;
@@ -39,7 +39,7 @@ export function ImproveFuturePitchesSection(props: Props) {
     onSaveAndDerive,
     onApproveCandidate,
     onDiscardCandidate,
-    onUpdateCandidateText,
+    onUpdateCandidateText
   } = props;
 
   return (
@@ -48,8 +48,8 @@ export function ImproveFuturePitchesSection(props: Props) {
         <h3 className="font-semibold">Improve future pitches</h3>
 
         <p className="text-sm text-slate-600">
-          Validate this pitch to save it as a future example, or edit it and
-          explain your changes so PitchForge can learn reusable rules.
+          Validate this pitch to save it as a future example, or edit it and explain your changes so
+          PitchForge can learn reusable rules.
         </p>
       </div>
 
@@ -60,11 +60,7 @@ export function ImproveFuturePitchesSection(props: Props) {
             disabled={validating || validated}
             className="px-4 py-2 bg-emerald-600 text-white rounded-md text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {validating
-              ? "Saving..."
-              : validated
-                ? "Saved ✓"
-                : "Validate pitch"}
+            {validating ? "Saving..." : validated ? "Saved ✓" : "Validate pitch"}
           </button>
 
           <button
@@ -75,11 +71,7 @@ export function ImproveFuturePitchesSection(props: Props) {
             Edit &amp; give feedback
           </button>
 
-          {validated && (
-            <span className="text-xs text-emerald-700">
-              Added to your examples.
-            </span>
-          )}
+          {validated && <span className="text-xs text-emerald-700">Added to your examples.</span>}
         </div>
       )}
 
@@ -92,7 +84,7 @@ export function ImproveFuturePitchesSection(props: Props) {
 
             <textarea
               value={editedText}
-              onChange={e => onEditedTextChange(e.target.value)}
+              onChange={(e) => onEditedTextChange(e.target.value)}
               className="w-full min-h-[200px] p-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
             />
           </div>
@@ -104,7 +96,7 @@ export function ImproveFuturePitchesSection(props: Props) {
 
             <textarea
               value={feedback}
-              onChange={e => onFeedbackChange(e.target.value)}
+              onChange={(e) => onFeedbackChange(e.target.value)}
               placeholder="e.g. Removed the 'fast-paced environments' cliché, switched to first person, led with the logistics project..."
               className="w-full min-h-[100px] p-3 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
             />
@@ -120,9 +112,7 @@ export function ImproveFuturePitchesSection(props: Props) {
             </button>
 
             {pitchSaved && (
-              <span className="text-xs text-emerald-700">
-                Edited pitch saved as an example.
-              </span>
+              <span className="text-xs text-emerald-700">Edited pitch saved as an example.</span>
             )}
           </div>
         </div>
@@ -145,8 +135,7 @@ export function ImproveFuturePitchesSection(props: Props) {
 
           {candidates.length === 0 && (
             <p className="text-sm text-slate-600">
-              No reusable rules found in these edits. Your pitch was still saved
-              as an example.
+              No reusable rules found in these edits. Your pitch was still saved as an example.
             </p>
           )}
 
@@ -154,7 +143,7 @@ export function ImproveFuturePitchesSection(props: Props) {
             <RuleCandidateCard
               key={i}
               candidate={c}
-              onTextChange={text => onUpdateCandidateText(i, text)}
+              onTextChange={(text) => onUpdateCandidateText(i, text)}
               onApprove={() => onApproveCandidate(i)}
               onDiscard={() => onDiscardCandidate(i)}
             />

@@ -1,7 +1,7 @@
-import type {Pitch} from "@/interfaces/pitch-assistant";
+import type { Pitch } from "@/interfaces/pitch-assistant";
 
-import {VoiceBadge} from "@/features/profile/components/badge/VoiceBadge";
-import {ItemActions} from "@/features/profile/components/input/ItemActions";
+import { VoiceBadge } from "@/features/profile/components/badge/VoiceBadge";
+import { ItemActions } from "@/features/profile/components/input/ItemActions";
 
 interface Props {
   pitch: Pitch;
@@ -9,7 +9,7 @@ interface Props {
   onDelete: () => void;
 }
 
-export function PitchCard({pitch, onEdit, onDelete}: Props) {
+export function PitchCard({ pitch, onEdit, onDelete }: Props) {
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-4">
       <div className="flex items-start justify-between">

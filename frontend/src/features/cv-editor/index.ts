@@ -1,1 +1,1 @@
-export {CvEditor} from "@/features/cv-editor/pages/CvEditor";
+export { CvEditor } from "@/features/cv-editor/pages/CvEditor";

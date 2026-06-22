@@ -1,7 +1,7 @@
-import {forwardRef} from "react";
-import type {TextareaHTMLAttributes} from "react";
+import { forwardRef } from "react";
+import type { TextareaHTMLAttributes } from "react";
 
-import type {FieldError} from "react-hook-form";
+import type { FieldError } from "react-hook-form";
 
 const labelClass = "block text-xs font-medium text-slate-500 mb-1";
 const errorClass = "mt-1 text-xs text-red-600";
@@ -15,7 +15,7 @@ interface FieldTextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 
 export const FieldTextarea = forwardRef<HTMLTextAreaElement, FieldTextareaProps>(
-  function FieldTextarea({label, error, required, className, ...props}, ref) {
+  function FieldTextarea({ label, error, required, className, ...props }, ref) {
     return (
       <div>
         <label className={labelClass}>
@@ -33,5 +33,5 @@ export const FieldTextarea = forwardRef<HTMLTextAreaElement, FieldTextareaProps>
         {error?.message && <p className={errorClass}>{error.message}</p>}
       </div>
     );
-  },
+  }
 );

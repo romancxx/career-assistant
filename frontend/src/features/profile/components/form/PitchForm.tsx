@@ -1,20 +1,20 @@
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Controller, useForm} from "react-hook-form";
-import {mixed, object, string, type ObjectSchema} from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import { mixed, object, string, type ObjectSchema } from "yup";
 
-import type {Language, Person, Pitch} from "@/interfaces/pitch-assistant";
+import type { Language, Person, Pitch } from "@/interfaces/pitch-assistant";
 import {
   DEFAULT_LANGUAGE,
   DEFAULT_PERSON,
   LANGUAGE_LABELS,
-  PERSON_LABELS,
+  PERSON_LABELS
 } from "@/interfaces/pitch-assistant";
 
-import {FormActions} from "@/features/profile/components/input/FormActions";
-import {toList} from "@/features/profile/utils/strings";
-import {FieldInput} from "@/components/input/FieldInput";
-import {FieldSelect} from "@/components/input/FieldSelect";
-import {FieldTextarea} from "@/components/input/FieldTextarea";
+import { FormActions } from "@/features/profile/components/input/FormActions";
+import { toList } from "@/features/profile/utils/strings";
+import { FieldInput } from "@/components/input/FieldInput";
+import { FieldSelect } from "@/components/input/FieldSelect";
+import { FieldTextarea } from "@/components/input/FieldTextarea";
 
 interface PitchFormValues {
   text: string;
@@ -29,7 +29,7 @@ const schema: ObjectSchema<PitchFormValues> = object({
   roleType: string().default(""),
   tags: string().default(""),
   language: mixed<Language>().oneOf(["en", "fr"]).required(),
-  person: mixed<Person>().oneOf(["first", "third"]).required(),
+  person: mixed<Person>().oneOf(["first", "third"]).required()
 });
 
 interface PitchFormProps {
@@ -38,11 +38,11 @@ interface PitchFormProps {
   onCancel: () => void;
 }
 
-export function PitchForm({initial, onSubmit, onCancel}: PitchFormProps) {
+export function PitchForm({ initial, onSubmit, onCancel }: PitchFormProps) {
   const {
     control,
     handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: { errors, isSubmitting }
   } = useForm<PitchFormValues>({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -51,18 +51,18 @@ export function PitchForm({initial, onSubmit, onCancel}: PitchFormProps) {
       roleType: initial?.roleType ?? "",
       tags: (initial?.tags ?? []).join(", "),
       language: initial?.language ?? DEFAULT_LANGUAGE,
-      person: initial?.person ?? DEFAULT_PERSON,
-    },
+      person: initial?.person ?? DEFAULT_PERSON
+    }
   });
 
-  const submit = handleSubmit(values =>
+  const submit = handleSubmit((values) =>
     onSubmit({
       text: values.text.trim(),
       roleType: values.roleType.trim() || undefined,
       tags: toList(values.tags),
       language: values.language,
-      person: values.person,
-    }),
+      person: values.person
+    })
   );
 
   return (
@@ -70,14 +70,8 @@ export function PitchForm({initial, onSubmit, onCancel}: PitchFormProps) {
       <Controller
         control={control}
         name="text"
-        render={({field}) => (
-          <FieldTextarea
-            {...field}
-            label="Pitch text"
-            rows={5}
-            required
-            error={errors.text}
-          />
+        render={({ field }) => (
+          <FieldTextarea {...field} label="Pitch text" rows={5} required error={errors.text} />
         )}
       />
 
@@ -85,7 +79,7 @@ export function PitchForm({initial, onSubmit, onCancel}: PitchFormProps) {
         <Controller
           control={control}
           name="roleType"
-          render={({field}) => (
+          render={({ field }) => (
             <FieldInput
               {...field}
               label="Role type"
@@ -98,21 +92,17 @@ export function PitchForm({initial, onSubmit, onCancel}: PitchFormProps) {
         <Controller
           control={control}
           name="tags"
-          render={({field}) => (
-            <FieldInput
-              {...field}
-              label="Tags (comma-separated)"
-              error={errors.tags}
-            />
+          render={({ field }) => (
+            <FieldInput {...field} label="Tags (comma-separated)" error={errors.tags} />
           )}
         />
 
         <Controller
           control={control}
           name="language"
-          render={({field}) => (
+          render={({ field }) => (
             <FieldSelect {...field} label="Language" error={errors.language}>
-              {(Object.keys(LANGUAGE_LABELS) as Language[]).map(l => (
+              {(Object.keys(LANGUAGE_LABELS) as Language[]).map((l) => (
                 <option key={l} value={l}>
                   {LANGUAGE_LABELS[l]}
                 </option>
@@ -124,9 +114,9 @@ export function PitchForm({initial, onSubmit, onCancel}: PitchFormProps) {
         <Controller
           control={control}
           name="person"
-          render={({field}) => (
+          render={({ field }) => (
             <FieldSelect {...field} label="Person" error={errors.person}>
-              {(Object.keys(PERSON_LABELS) as Person[]).map(p => (
+              {(Object.keys(PERSON_LABELS) as Person[]).map((p) => (
                 <option key={p} value={p}>
                   {PERSON_LABELS[p]}
                 </option>

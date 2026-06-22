@@ -1,18 +1,18 @@
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Controller, useForm} from "react-hook-form";
-import {mixed, object, string, type ObjectSchema} from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import { mixed, object, string, type ObjectSchema } from "yup";
 
-import type {Language, Person, Rule} from "@/interfaces/pitch-assistant";
+import type { Language, Person, Rule } from "@/interfaces/pitch-assistant";
 import {
   DEFAULT_LANGUAGE,
   DEFAULT_PERSON,
   LANGUAGE_LABELS,
-  PERSON_LABELS,
+  PERSON_LABELS
 } from "@/interfaces/pitch-assistant";
 
-import {FormActions} from "@/features/profile/components/input/FormActions";
-import {FieldSelect} from "@/components/input/FieldSelect";
-import {FieldTextarea} from "@/components/input/FieldTextarea";
+import { FormActions } from "@/features/profile/components/input/FormActions";
+import { FieldSelect } from "@/components/input/FieldSelect";
+import { FieldTextarea } from "@/components/input/FieldTextarea";
 
 interface RuleFormValues {
   text: string;
@@ -23,7 +23,7 @@ interface RuleFormValues {
 const schema: ObjectSchema<RuleFormValues> = object({
   text: string().trim().required("Rule text is required"),
   language: mixed<Language>().oneOf(["en", "fr"]).required(),
-  person: mixed<Person>().oneOf(["first", "third"]).required(),
+  person: mixed<Person>().oneOf(["first", "third"]).required()
 });
 
 interface RuleFormProps {
@@ -32,27 +32,27 @@ interface RuleFormProps {
   onCancel: () => void;
 }
 
-export function RuleForm({initial, onSubmit, onCancel}: RuleFormProps) {
+export function RuleForm({ initial, onSubmit, onCancel }: RuleFormProps) {
   const {
     control,
     handleSubmit,
-    formState: {errors, isSubmitting},
+    formState: { errors, isSubmitting }
   } = useForm<RuleFormValues>({
     mode: "onChange",
     resolver: yupResolver(schema),
     defaultValues: {
       text: initial?.text ?? "",
       language: initial?.language ?? DEFAULT_LANGUAGE,
-      person: initial?.person ?? DEFAULT_PERSON,
-    },
+      person: initial?.person ?? DEFAULT_PERSON
+    }
   });
 
-  const submit = handleSubmit(values =>
+  const submit = handleSubmit((values) =>
     onSubmit({
       text: values.text.trim(),
       language: values.language,
-      person: values.person,
-    }),
+      person: values.person
+    })
   );
 
   return (
@@ -60,14 +60,8 @@ export function RuleForm({initial, onSubmit, onCancel}: RuleFormProps) {
       <Controller
         control={control}
         name="text"
-        render={({field}) => (
-          <FieldTextarea
-            {...field}
-            label="Rule"
-            rows={2}
-            required
-            error={errors.text}
-          />
+        render={({ field }) => (
+          <FieldTextarea {...field} label="Rule" rows={2} required error={errors.text} />
         )}
       />
 
@@ -75,9 +69,9 @@ export function RuleForm({initial, onSubmit, onCancel}: RuleFormProps) {
         <Controller
           control={control}
           name="language"
-          render={({field}) => (
+          render={({ field }) => (
             <FieldSelect {...field} label="Language" error={errors.language}>
-              {(Object.keys(LANGUAGE_LABELS) as Language[]).map(l => (
+              {(Object.keys(LANGUAGE_LABELS) as Language[]).map((l) => (
                 <option key={l} value={l}>
                   {LANGUAGE_LABELS[l]}
                 </option>
@@ -89,9 +83,9 @@ export function RuleForm({initial, onSubmit, onCancel}: RuleFormProps) {
         <Controller
           control={control}
           name="person"
-          render={({field}) => (
+          render={({ field }) => (
             <FieldSelect {...field} label="Person" error={errors.person}>
-              {(Object.keys(PERSON_LABELS) as Person[]).map(p => (
+              {(Object.keys(PERSON_LABELS) as Person[]).map((p) => (
                 <option key={p} value={p}>
                   {PERSON_LABELS[p]}
                 </option>

@@ -1,6 +1,6 @@
-import type {Skill} from "@/interfaces/pitch-assistant";
+import type { Skill } from "@/interfaces/pitch-assistant";
 
-import {ItemActions} from "@/features/profile/components/input/ItemActions";
+import { ItemActions } from "@/features/profile/components/input/ItemActions";
 
 interface Props {
   skill: Skill;
@@ -8,7 +8,7 @@ interface Props {
   onDelete: () => void;
 }
 
-export function SkillRow({skill, onEdit, onDelete}: Props) {
+export function SkillRow({ skill, onEdit, onDelete }: Props) {
   return (
     <div className="group flex items-center justify-between text-sm">
       <span>

@@ -8,12 +8,12 @@ export const DEFAULT_PERSON: Person = "third";
 
 export const LANGUAGE_LABELS: Record<Language, string> = {
   en: "English",
-  fr: "French",
+  fr: "French"
 };
 
 export const PERSON_LABELS: Record<Person, string> = {
   first: "1st person",
-  third: "3rd person",
+  third: "3rd person"
 };
 
 export interface Experience {
@@ -53,10 +53,10 @@ export interface Rule {
 }
 
 export interface ProfileData {
-  pitches: {id: string; payload: Pitch}[];
-  experiences: {id: string; payload: Experience}[];
-  skills: {id: string; payload: Skill}[];
-  rules: {id: string; payload: Rule}[];
+  pitches: { id: string; payload: Pitch }[];
+  experiences: { id: string; payload: Experience }[];
+  skills: { id: string; payload: Skill }[];
+  rules: { id: string; payload: Rule }[];
 }
 
 export interface JdAnalysis {
@@ -99,8 +99,8 @@ export interface GenerationResult {
   jdAnalysis: JdAnalysis;
   pitch: GeneratedPitch;
   metadata: {
-    retrievedExperiences: {id: string; company: string; role: string}[];
-    retrievedSkills: {name: string; level: string}[];
+    retrievedExperiences: { id: string; company: string; role: string }[];
+    retrievedSkills: { name: string; level: string }[];
     retrievedPitches: number;
     rules: number;
   };

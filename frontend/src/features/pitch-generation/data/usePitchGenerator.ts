@@ -1,14 +1,14 @@
-import {useState} from "react";
+import { useState } from "react";
 
-import type {CandidateRule} from "@/interfaces/pitch-assistant";
+import type { CandidateRule } from "@/interfaces/pitch-assistant";
 
-import {useDeriveRulesMutation} from "@/features/pitch-generation/data/api/useDeriveRulesMutation";
-import type {GeneratePitchParams} from "@/features/pitch-generation/data/api/useGeneratePitchMutation";
-import {useGeneratePitchMutation} from "@/features/pitch-generation/data/api/useGeneratePitchMutation";
-import {useSavePitchMutation} from "@/features/pitch-generation/data/api/useSavePitchMutation";
-import {useSaveRuleMutation} from "@/features/pitch-generation/data/api/useSaveRuleMutation";
-import {tagsFromAnalysis} from "@/features/pitch-generation/utils/analysis";
-import {toMessage} from "@/utils/errors";
+import { useDeriveRulesMutation } from "@/features/pitch-generation/data/api/useDeriveRulesMutation";
+import type { GeneratePitchParams } from "@/features/pitch-generation/data/api/useGeneratePitchMutation";
+import { useGeneratePitchMutation } from "@/features/pitch-generation/data/api/useGeneratePitchMutation";
+import { useSavePitchMutation } from "@/features/pitch-generation/data/api/useSavePitchMutation";
+import { useSaveRuleMutation } from "@/features/pitch-generation/data/api/useSaveRuleMutation";
+import { tagsFromAnalysis } from "@/features/pitch-generation/utils/analysis";
+import { toMessage } from "@/utils/errors";
 
 export interface RuleCandidateState extends CandidateRule {
   status: "pending" | "approved" | "discarded";
@@ -19,22 +19,20 @@ export function usePitchGenerator() {
   const [editing, setEditing] = useState(false);
   const [editedText, setEditedText] = useState("");
   const [feedback, setFeedback] = useState("");
-  const [candidates, setCandidates] = useState<RuleCandidateState[] | null>(
-    null,
-  );
+  const [candidates, setCandidates] = useState<RuleCandidateState[] | null>(null);
 
   const {
     data: result = null,
     isPending: generating,
     error: generateRawError,
-    mutate: generate,
+    mutate: generate
   } = useGeneratePitchMutation();
 
   const {
     isPending: validating,
     isSuccess: validated,
     mutateAsync: validatePitch,
-    reset: resetValidate,
+    reset: resetValidate
   } = useSavePitchMutation();
 
   const {
@@ -42,17 +40,17 @@ export function usePitchGenerator() {
     isSuccess: pitchSaved,
     error: saveDraftError,
     mutateAsync: saveDraft,
-    reset: resetSaveDraft,
+    reset: resetSaveDraft
   } = useSavePitchMutation();
 
   const {
     isPending: derivingRules,
     error: deriveRulesError,
     mutateAsync: deriveRules,
-    reset: resetDeriveRules,
+    reset: resetDeriveRules
   } = useDeriveRulesMutation();
 
-  const {error: saveRuleError, mutateAsync: saveRule} = useSaveRuleMutation();
+  const { error: saveRuleError, mutateAsync: saveRule } = useSaveRuleMutation();
 
   const generateError = generateRawError ? toMessage(generateRawError) : null;
   const deriving = savingDraft || derivingRules;
@@ -87,7 +85,7 @@ export function usePitchGenerator() {
       tags: tagsFromAnalysis(result),
       roleType: result.jdAnalysis.roleType,
       language: context.language,
-      person: context.person,
+      person: context.person
     });
   }
 
@@ -98,7 +96,7 @@ export function usePitchGenerator() {
       tags: tagsFromAnalysis(result),
       roleType: result.jdAnalysis.roleType,
       language: context.language,
-      person: context.person,
+      person: context.person
     });
     const rules = await deriveRules({
       jd: context.jd,
@@ -106,9 +104,9 @@ export function usePitchGenerator() {
       editedPitch: editedText,
       feedback,
       language: context.language,
-      person: context.person,
+      person: context.person
     });
-    setCandidates(rules.map(r => ({...r, status: "pending"})));
+    setCandidates(rules.map((r) => ({ ...r, status: "pending" })));
   }
 
   async function approveCandidate(index: number) {
@@ -117,31 +115,21 @@ export function usePitchGenerator() {
     await saveRule({
       text: candidate.text,
       language: context.language,
-      person: context.person,
+      person: context.person
     });
-    setCandidates(prev =>
-      prev
-        ? prev.map((c, i) =>
-            i === index ? {...c, status: "approved" as const} : c,
-          )
-        : prev,
+    setCandidates((prev) =>
+      prev ? prev.map((c, i) => (i === index ? { ...c, status: "approved" as const } : c)) : prev
     );
   }
 
   function discardCandidate(index: number) {
-    setCandidates(prev =>
-      prev
-        ? prev.map((c, i) =>
-            i === index ? {...c, status: "discarded" as const} : c,
-          )
-        : prev,
+    setCandidates((prev) =>
+      prev ? prev.map((c, i) => (i === index ? { ...c, status: "discarded" as const } : c)) : prev
     );
   }
 
   function updateCandidateText(index: number, text: string) {
-    setCandidates(prev =>
-      prev ? prev.map((c, i) => (i === index ? {...c, text} : c)) : prev,
-    );
+    setCandidates((prev) => (prev ? prev.map((c, i) => (i === index ? { ...c, text } : c)) : prev));
   }
 
   return {
@@ -165,6 +153,6 @@ export function usePitchGenerator() {
     handleSaveAndDerive,
     approveCandidate,
     discardCandidate,
-    updateCandidateText,
+    updateCandidateText
   };
 }

@@ -1,48 +1,52 @@
-import type {Engagement} from "@/interfaces/cv-pdf";
+import { Controller, useFormContext } from "react-hook-form";
 
-import {Highlights} from "@/features/cv-editor/components/experience/Highlights";
-import {Field} from "@/features/cv-editor/components/input/Field";
+import type { Cv } from "@/interfaces/cv-pdf";
+
+import { HighlightsArray } from "@/features/cv-editor/components/experience/HighlightsArray";
+import { FieldInput } from "@/components/input/FieldInput";
 
 interface Props {
-  engagement: Engagement;
-  onChange: (fn: (draft: Engagement) => void) => void;
+  experienceIndex: number;
+  index: number;
 }
 
-export function EngagementCard({engagement, onChange}: Props) {
+export function EngagementCard({ experienceIndex, index }: Props) {
+  const { control } = useFormContext<Cv>();
+  const base = `experience.${experienceIndex}.engagements.${index}` as const;
+
   return (
     <div>
       <div className="grid grid-cols-3 gap-3">
-        <Field
-          label="Client"
-          value={engagement.client}
-          onChange={v => onChange(d => (d.client = v))}
+        <Controller
+          control={control}
+          name={`${base}.client`}
+          render={({ field }) => <FieldInput {...field} label="Client" />}
         />
 
-        <Field
-          label="Role"
-          value={engagement.role}
-          onChange={v => onChange(d => (d.role = v))}
+        <Controller
+          control={control}
+          name={`${base}.role`}
+          render={({ field }) => <FieldInput {...field} label="Role" />}
         />
 
-        <Field
-          label="Duration"
-          value={engagement.duration}
-          onChange={v => onChange(d => (d.duration = v))}
+        <Controller
+          control={control}
+          name={`${base}.duration`}
+          render={({ field }) => <FieldInput {...field} label="Duration" />}
         />
       </div>
 
       <div className="mt-3">
-        <Field
-          label="Tagline"
-          value={engagement.tagline ?? ""}
-          onChange={v => onChange(d => (d.tagline = v || undefined))}
+        <Controller
+          control={control}
+          name={`${base}.tagline`}
+          render={({ field }) => (
+            <FieldInput {...field} value={field.value ?? ""} label="Tagline" />
+          )}
         />
       </div>
 
-      <Highlights
-        items={engagement.highlights}
-        onChange={fn => onChange(d => fn(d.highlights))}
-      />
+      <HighlightsArray name={`${base}.highlights`} />
     </div>
   );
 }

@@ -1,19 +1,17 @@
-import {type ReactNode} from "react";
+import { type ReactNode } from "react";
 
-import {Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-export function Layout({children}: LayoutProps) {
-  const {pathname} = useLocation();
+export function Layout({ children }: LayoutProps) {
+  const { pathname } = useLocation();
 
   const linkClass = (path: string) =>
     `px-4 py-2 rounded-md text-sm font-medium transition ${
-      pathname === path
-        ? "bg-slate-900 text-white"
-        : "text-slate-600 hover:bg-slate-100"
+      pathname === path ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-100"
     }`;
 
   return (

@@ -1,11 +1,11 @@
-import type {ProfileData, Rule} from "@/interfaces/pitch-assistant";
+import type { ProfileData, Rule } from "@/interfaces/pitch-assistant";
 
-import {FormCard} from "@/features/profile/components/card/FormCard";
-import {RuleRow} from "@/features/profile/components/card/RuleRow";
-import {RuleForm} from "@/features/profile/components/form/RuleForm";
-import {AddButton} from "@/features/profile/components/input/AddButton";
-import {VoiceFilterBar} from "@/features/profile/components/input/VoiceFilterBar";
-import type {LangFilter, PersonFilter} from "@/features/profile/data/useProfileEditor";
+import { FormCard } from "@/features/profile/components/card/FormCard";
+import { RuleRow } from "@/features/profile/components/card/RuleRow";
+import { RuleForm } from "@/features/profile/components/form/RuleForm";
+import { AddButton } from "@/features/profile/components/input/AddButton";
+import { VoiceFilterBar } from "@/features/profile/components/input/VoiceFilterBar";
+import type { LangFilter, PersonFilter } from "@/features/profile/data/useProfileEditor";
 
 interface Props {
   rules: ProfileData["rules"];
@@ -36,7 +36,7 @@ export function RulesPanel({
   onEdit,
   onCancel,
   onSave,
-  onDelete,
+  onDelete
 }: Props) {
   return (
     <div className="space-y-3">
@@ -50,7 +50,7 @@ export function RulesPanel({
       {showForm ? (
         <FormCard>
           <RuleForm
-            initial={rules.find(r => r.id === editingId)?.payload}
+            initial={rules.find((r) => r.id === editingId)?.payload}
             onSubmit={onSave}
             onCancel={onCancel}
           />
@@ -60,8 +60,8 @@ export function RulesPanel({
       )}
 
       {visibleRules
-        .filter(r => r.id !== editingId)
-        .map(r => (
+        .filter((r) => r.id !== editingId)
+        .map((r) => (
           <RuleRow
             key={r.id}
             rule={r.payload}

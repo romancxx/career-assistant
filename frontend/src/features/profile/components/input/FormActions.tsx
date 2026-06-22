@@ -3,7 +3,7 @@ interface FormActionsProps {
   submitting: boolean;
 }
 
-export function FormActions({onCancel, submitting}: FormActionsProps) {
+export function FormActions({ onCancel, submitting }: FormActionsProps) {
   return (
     <div className="flex gap-2 pt-1">
       <button

@@ -10,7 +10,7 @@ Everything is grounded in **your verified data**. The LLM rephrases, selects, an
 | -------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------ |
 | **Pitch generation** | Retrieves your most relevant experience for a JD and writes a pitch in your voice.                                   | `/`          |
 | **CV tailoring**     | Turns a JD into a tailored `CvDocument` — reshaped summary, reranked experiences, grouped skills, ATS keyword match. | `/cv`        |
-| **CV → PDF**         | Renders a structured CV to an ATS-parseable PDF (single-column, real text, embedded fonts).                          | `/cv-editor` |
+| **CV → PDF**         | Maintain several CVs side by side (tabs) and render any of them to an ATS-parseable PDF (single-column, real text, embedded fonts). | `/cv-editor` |
 | **Profile / KB**     | Manage your knowledge base (experiences, skills, pitches, style rules) from the browser.                             | `/profile`   |
 
 ## Architecture
@@ -210,9 +210,9 @@ These two files hold static personal data used by the **CV Tailoring** feature. 
 ]
 ```
 
-#### `cv.json` (for CV → PDF)
+#### `cv-<id>.json` (for CV → PDF)
 
-Holds the structured CV rendered by the **CV → PDF** feature (see [CV → PDF](#cv--pdf-ats-clean-render)). An optional `photo.{jpg,png,webp}` alongside it is embedded as a circular header photo.
+Each CV is a numbered file (`cv-1.json`, `cv-2.json`, …) holding the structured CV rendered by the **CV → PDF** feature (see [CV → PDF](#cv--pdf-ats-clean-render)). Create at least `cv-1.json` to get started; the editor lists every `cv-<id>.json` as a tab and can create more. An optional `photo.{jpg,png,webp}` alongside them is embedded as a circular header photo.
 
 ### 6. Seed the database
 
@@ -255,7 +255,7 @@ career-assistant/
 │   │   ├── styles.json
 │   │   ├── profile.json         # CV: static personal info (not seeded)
 │   │   ├── education.json       # CV: static education (not seeded)
-│   │   └── cv.json              # CV → PDF source
+│   │   └── cv-1.json, cv-2.json # CV → PDF sources (one file per CV)
 │   ├── scripts/
 │   │   └── seed.ts              # Loads JSON files into Qdrant
 │   └── src/
@@ -362,15 +362,19 @@ The LLM only rephrases bullets, selects/orders experiences, and groups skills �
 A self-contained feature (`backend/src/cv-pdf`, frontend _Edit CV_ page) that renders a CV from structured data to an ATS-parseable PDF via Puppeteer. It is **independent** of the LLM CV tailoring above — it has its own data model and shares no types.
 
 ```
-GET  /cv-pdf/data           # Return the stored CV (backend/data/cv.json)
-POST /cv-pdf/render         # Body { "cv": Cv } → streams an application/pdf
+GET    /cv-pdf              # List all CVs as [{ id, label }]
+POST   /cv-pdf             # Body { "cv": Cv } → create a new CV, returns { id, label }
+GET    /cv-pdf/:id         # Return one stored CV (backend/data/cv-<id>.json)
+PUT    /cv-pdf/:id         # Body { "cv": Cv } → save that CV
+DELETE /cv-pdf/:id         # Delete that CV (refuses the last remaining one)
+POST   /cv-pdf/render      # Body { "cv": Cv } → streams an application/pdf
 ```
 
-**Data files** live in `backend/data/` (gitignored, like the other personal data): `cv.json` and an optional `photo.{jpg,png,webp}` that — if present — is embedded as a circular header photo. The fonts ship in `backend/src/cv-pdf/fonts`.
+**Data files** live in `backend/data/` (gitignored, like the other personal data): one `cv-<id>.json` per CV (`cv-1.json`, `cv-2.json`, …) and an optional `photo.{jpg,png,webp}` that — if present — is embedded as a circular header photo. The fonts ship in `backend/src/cv-pdf/fonts`.
 
-**Front-end:** the _Edit CV_ page (`/cv-editor`) loads the stored CV, lets you tweak text, bullets, and skills per application, and downloads the rendered PDF. Edits are in-memory (tailor → download); the canonical data lives in `cv.json`.
+**Front-end:** the _Edit CV_ page (`/cv-editor`) shows one tab per CV (plus a **+** to create one by cloning the active CV). Pick a tab to load it, tweak text, bullets, and skills per application, rename or delete it, and download the rendered PDF. The canonical data lives in the `cv-<id>.json` files.
 
-**Data model** (`backend/src/cv-pdf/interfaces`): a single `Cv` with `basics`, `summary`, `experience`, optional `projects`, `skills`, `education`. Experience entries are a discriminated union on `kind`:
+**Data model** (`backend/src/cv-pdf/interfaces`): a `Cv` with an optional editable `label` (the tab name, not rendered into the PDF), `basics`, `summary`, `experience`, optional `projects`, `skills`, `education`. Experience entries are a discriminated union on `kind`:
 
 - `"role"` — a single company (`company`, `role`, `start`, `end`, `tagline?`, `highlights`)
 - `"grouped"` — one header + date range grouping several `engagements` (e.g. freelance), rendered as nested sub-entries
@@ -384,11 +388,6 @@ POST /cv-pdf/render         # Body { "cv": Cv } → streams an application/pdf
 - Dates sit inline with the title (flex), not in a separately positioned box.
 - Standard headings: Summary, Work Experience, Projects (optional), Technical Skills, Education.
 - **Carlito** font (Calibri-metric, SIL OFL) is base64-embedded via `@font-face`, so there is no server-side font substitution and the text layer copy-pastes cleanly.
-- A4 `@page` with controlled margins; `break-inside: avoid` on each entry/engagement, `break-after: avoid` on headings, and `orphans`/`widows` control.
-
-**Renderer:** headless Puppeteer with `emulateMediaType('print')` + `page.pdf({ printBackground: true, preferCSSPageSize: true, tagged: true })`. Tagged PDF (better structure/reading order) requires Chromium's new headless — **Chrome ≥ 126 / Puppeteer ≥ 22**; it's silently ignored on older Chromium.
-
-**Verification:** `backend/src/cv-pdf/verify-pdf.ts` extracts the PDF text layer (`pdf-parse`) and `checkSectionOrder()` asserts the headings appear in the expected sequence — the automated "copy-paste test".
 
 ---
 

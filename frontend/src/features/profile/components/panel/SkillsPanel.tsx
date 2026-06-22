@@ -1,12 +1,9 @@
-import type {
-  ProfileData,
-  Skill,
-} from "@/interfaces/pitch-assistant";
+import type { ProfileData, Skill } from "@/interfaces/pitch-assistant";
 
-import {FormCard} from "@/features/profile/components/card/FormCard";
-import {SkillRow} from "@/features/profile/components/card/SkillRow";
-import {SkillForm} from "@/features/profile/components/form/SkillForm";
-import {AddButton} from "@/features/profile/components/input/AddButton";
+import { FormCard } from "@/features/profile/components/card/FormCard";
+import { SkillRow } from "@/features/profile/components/card/SkillRow";
+import { SkillForm } from "@/features/profile/components/form/SkillForm";
+import { AddButton } from "@/features/profile/components/input/AddButton";
 
 interface Props {
   skills: ProfileData["skills"];
@@ -27,14 +24,14 @@ export function SkillsPanel({
   onEdit,
   onCancel,
   onSave,
-  onDelete,
+  onDelete
 }: Props) {
   return (
     <div className="space-y-3">
       {showForm ? (
         <FormCard>
           <SkillForm
-            initial={skills.find(s => s.id === editingId)?.payload}
+            initial={skills.find((s) => s.id === editingId)?.payload}
             onSubmit={onSave}
             onCancel={onCancel}
           />
@@ -45,8 +42,8 @@ export function SkillsPanel({
 
       <div className="bg-white border border-slate-200 rounded-lg p-4 grid grid-cols-2 md:grid-cols-3 gap-2">
         {skills
-          .filter(s => s.id !== editingId)
-          .map(s => (
+          .filter((s) => s.id !== editingId)
+          .map((s) => (
             <SkillRow
               key={s.id}
               skill={s.payload}

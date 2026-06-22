@@ -5,15 +5,15 @@ interface Props {
   onBackup: () => void;
 }
 
-export function ProfileHeader({backupPending, backupMessage, backupError, onBackup}: Props) {
+export function ProfileHeader({ backupPending, backupMessage, backupError, onBackup }: Props) {
   return (
     <div className="flex items-start justify-between gap-4">
       <div>
         <h2 className="text-2xl font-bold mb-1">Profile</h2>
 
         <p className="text-sm text-slate-600">
-          The data that grounds your pitches. Add, edit, or delete experiences,
-          skills, pitches, and rules directly here — changes apply immediately.
+          The data that grounds your pitches. Add, edit, or delete experiences, skills, pitches, and
+          rules directly here — changes apply immediately.
         </p>
       </div>
 
@@ -27,7 +27,9 @@ export function ProfileHeader({backupPending, backupMessage, backupError, onBack
         </button>
 
         {backupMessage && (
-          <p className={`mt-1 text-xs ${backupError ? "text-red-600" : "text-slate-500"}`}>{backupMessage}</p>
+          <p className={`mt-1 text-xs ${backupError ? "text-red-600" : "text-slate-500"}`}>
+            {backupMessage}
+          </p>
         )}
       </div>
     </div>

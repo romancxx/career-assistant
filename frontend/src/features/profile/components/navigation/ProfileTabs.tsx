@@ -1,15 +1,15 @@
-import type {ProfileTab} from "@/features/profile/data/useProfile";
+import type { ProfileTab } from "@/features/profile/data/useProfile";
 
 interface Props {
-  tabs: {key: ProfileTab; label: string; count: number}[];
+  tabs: { key: ProfileTab; label: string; count: number }[];
   active: ProfileTab;
   onSelect: (tab: ProfileTab) => void;
 }
 
-export function ProfileTabs({tabs, active, onSelect}: Props) {
+export function ProfileTabs({ tabs, active, onSelect }: Props) {
   return (
     <div className="flex gap-2 border-b border-slate-200">
-      {tabs.map(t => (
+      {tabs.map((t) => (
         <button
           key={t.key}
           onClick={() => onSelect(t.key)}

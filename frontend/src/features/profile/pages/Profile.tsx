@@ -1,14 +1,14 @@
-import type {ProfileData} from "@/interfaces/pitch-assistant";
+import type { ProfileData } from "@/interfaces/pitch-assistant";
 
-import {ProfileHeader} from "@/features/profile/components/navigation/ProfileHeader";
-import {ProfileTabs} from "@/features/profile/components/navigation/ProfileTabs";
-import {ExperiencesPanel} from "@/features/profile/components/panel/ExperiencesPanel";
-import {PitchesPanel} from "@/features/profile/components/panel/PitchesPanel";
-import {RulesPanel} from "@/features/profile/components/panel/RulesPanel";
-import {SkillsPanel} from "@/features/profile/components/panel/SkillsPanel";
-import type {ProfileTab} from "@/features/profile/data/useProfile";
-import {useProfileEditor} from "@/features/profile/data/useProfileEditor";
-import {filterByVoice} from "@/features/profile/utils/voice";
+import { ProfileHeader } from "@/features/profile/components/navigation/ProfileHeader";
+import { ProfileTabs } from "@/features/profile/components/navigation/ProfileTabs";
+import { ExperiencesPanel } from "@/features/profile/components/panel/ExperiencesPanel";
+import { PitchesPanel } from "@/features/profile/components/panel/PitchesPanel";
+import { RulesPanel } from "@/features/profile/components/panel/RulesPanel";
+import { SkillsPanel } from "@/features/profile/components/panel/SkillsPanel";
+import type { ProfileTab } from "@/features/profile/data/useProfile";
+import { useProfileEditor } from "@/features/profile/data/useProfileEditor";
+import { filterByVoice } from "@/features/profile/utils/voice";
 
 export function Profile() {
   const {
@@ -30,7 +30,7 @@ export function Profile() {
     startEditing,
     closeForm,
     handleSave,
-    handleDelete,
+    handleDelete
   } = useProfileEditor();
 
   if (loading) return <div>Loading...</div>;
@@ -39,23 +39,23 @@ export function Profile() {
   const visiblePitches = filterByVoice<ProfileData["pitches"][number]>(
     data.pitches,
     langFilter,
-    personFilter,
+    personFilter
   );
   const visibleRules = filterByVoice<ProfileData["rules"][number]>(
     data.rules,
     langFilter,
-    personFilter,
+    personFilter
   );
 
-  const tabs: {key: ProfileTab; label: string; count: number}[] = [
+  const tabs: { key: ProfileTab; label: string; count: number }[] = [
     {
       key: "experiences",
       label: "Experiences",
-      count: data.experiences.length,
+      count: data.experiences.length
     },
-    {key: "skills", label: "Skills", count: data.skills.length},
-    {key: "pitches", label: "Pitches", count: data.pitches.length},
-    {key: "rules", label: "Rules", count: data.rules.length},
+    { key: "skills", label: "Skills", count: data.skills.length },
+    { key: "pitches", label: "Pitches", count: data.pitches.length },
+    { key: "rules", label: "Rules", count: data.rules.length }
   ];
 
   return (
@@ -77,8 +77,8 @@ export function Profile() {
           onAdd={startAdding}
           onEdit={startEditing}
           onCancel={closeForm}
-          onSave={d => handleSave("experiences", d)}
-          onDelete={id => handleDelete("experiences", id)}
+          onSave={(d) => handleSave("experiences", d)}
+          onDelete={(id) => handleDelete("experiences", id)}
         />
       )}
 
@@ -90,8 +90,8 @@ export function Profile() {
           onAdd={startAdding}
           onEdit={startEditing}
           onCancel={closeForm}
-          onSave={d => handleSave("skills", d)}
-          onDelete={id => handleDelete("skills", id)}
+          onSave={(d) => handleSave("skills", d)}
+          onDelete={(id) => handleDelete("skills", id)}
         />
       )}
 
@@ -108,8 +108,8 @@ export function Profile() {
           onAdd={startAdding}
           onEdit={startEditing}
           onCancel={closeForm}
-          onSave={d => handleSave("pitches", d)}
-          onDelete={id => handleDelete("pitches", id)}
+          onSave={(d) => handleSave("pitches", d)}
+          onDelete={(id) => handleDelete("pitches", id)}
         />
       )}
 
@@ -126,8 +126,8 @@ export function Profile() {
           onAdd={startAdding}
           onEdit={startEditing}
           onCancel={closeForm}
-          onSave={d => handleSave("rules", d)}
-          onDelete={id => handleDelete("rules", id)}
+          onSave={(d) => handleSave("rules", d)}
+          onDelete={(id) => handleDelete("rules", id)}
         />
       )}
     </div>

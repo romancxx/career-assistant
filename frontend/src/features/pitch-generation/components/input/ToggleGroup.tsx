@@ -6,15 +6,13 @@ interface Props<T extends string> {
 }
 
 export function ToggleGroup<T extends string>(props: Props<T>) {
-  const {label, options, value, onChange} = props;
+  const { label, options, value, onChange } = props;
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-500 uppercase mb-1">
-        {label}
-      </label>
+      <label className="block text-xs font-medium text-slate-500 uppercase mb-1">{label}</label>
 
       <div className="flex gap-2">
-        {(Object.keys(options) as T[]).map(option => (
+        {(Object.keys(options) as T[]).map((option) => (
           <button
             key={option}
             type="button"

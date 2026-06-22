@@ -1,10 +1,10 @@
-import type {CvEducation} from "@/interfaces/pitch-assistant";
+import type { CvEducation } from "@/interfaces/pitch-assistant";
 
 interface Props {
   education: CvEducation[];
 }
 
-export function EducationSection({education}: Props) {
+export function EducationSection({ education }: Props) {
   return (
     <section className="bg-white border border-slate-200 rounded-lg p-5 space-y-2">
       <h2 className="text-sm font-semibold text-slate-700">Education</h2>

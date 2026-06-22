@@ -1,11 +1,11 @@
-import {useState} from "react";
+import { useState } from "react";
 
 interface Props {
   text: string;
   label?: string;
 }
 
-export function CopyButton({text, label = "Copy"}: Props) {
+export function CopyButton({ text, label = "Copy" }: Props) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {

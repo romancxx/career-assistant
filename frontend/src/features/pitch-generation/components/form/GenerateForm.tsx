@@ -1,17 +1,17 @@
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Controller, useForm, useWatch} from "react-hook-form";
-import {mixed, object, string, type ObjectSchema} from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { mixed, object, string, type ObjectSchema } from "yup";
 
-import type {Language, Person} from "@/interfaces/pitch-assistant";
+import type { Language, Person } from "@/interfaces/pitch-assistant";
 import {
   DEFAULT_LANGUAGE,
   DEFAULT_PERSON,
   LANGUAGE_LABELS,
-  PERSON_LABELS,
+  PERSON_LABELS
 } from "@/interfaces/pitch-assistant";
 
-import {ToggleGroup} from "@/features/pitch-generation/components/input/ToggleGroup";
-import type {GeneratePitchParams} from "@/features/pitch-generation/data/api/useGeneratePitchMutation";
+import { ToggleGroup } from "@/features/pitch-generation/components/input/ToggleGroup";
+import type { GeneratePitchParams } from "@/features/pitch-generation/data/api/useGeneratePitchMutation";
 
 interface GenerateFormValues {
   jd: string;
@@ -24,7 +24,7 @@ const schema: ObjectSchema<GenerateFormValues> = object({
   jd: string().trim().required("A job description is required"),
   directive: string().defined(),
   language: mixed<Language>().oneOf(["en", "fr"]).required(),
-  person: mixed<Person>().oneOf(["first", "third"]).required(),
+  person: mixed<Person>().oneOf(["first", "third"]).required()
 });
 
 interface GenerateFormProps {
@@ -32,11 +32,11 @@ interface GenerateFormProps {
   onGenerate: (params: GeneratePitchParams) => void;
 }
 
-export function GenerateForm({generating, onGenerate}: GenerateFormProps) {
+export function GenerateForm({ generating, onGenerate }: GenerateFormProps) {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors }
   } = useForm<GenerateFormValues>({
     mode: "onChange",
     resolver: yupResolver(schema),
@@ -44,31 +44,28 @@ export function GenerateForm({generating, onGenerate}: GenerateFormProps) {
       jd: "",
       directive: "",
       language: DEFAULT_LANGUAGE,
-      person: DEFAULT_PERSON,
-    },
+      person: DEFAULT_PERSON
+    }
   });
 
-  const jd = useWatch({control, name: "jd"});
+  const jd = useWatch({ control, name: "jd" });
 
-  const submit = handleSubmit(values =>
+  const submit = handleSubmit((values) =>
     onGenerate({
       jd: values.jd.trim(),
       directive: values.directive.trim() || undefined,
       language: values.language,
-      person: values.person,
-    }),
+      person: values.person
+    })
   );
 
   return (
-    <form
-      onSubmit={submit}
-      className="bg-white border border-slate-200 rounded-lg p-4"
-    >
+    <form onSubmit={submit} className="bg-white border border-slate-200 rounded-lg p-4">
       <div className="mb-3 grid grid-cols-2 gap-4">
         <Controller
           control={control}
           name="language"
-          render={({field}) => (
+          render={({ field }) => (
             <ToggleGroup
               label="Language"
               options={LANGUAGE_LABELS}
@@ -81,7 +78,7 @@ export function GenerateForm({generating, onGenerate}: GenerateFormProps) {
         <Controller
           control={control}
           name="person"
-          render={({field}) => (
+          render={({ field }) => (
             <ToggleGroup
               label="Person"
               options={PERSON_LABELS}
@@ -93,14 +90,13 @@ export function GenerateForm({generating, onGenerate}: GenerateFormProps) {
       </div>
 
       <p className="mb-3 text-xs text-slate-500">
-        Sets the pitch language &amp; voice, and scopes which past pitches and
-        rules are used.
+        Sets the pitch language &amp; voice, and scopes which past pitches and rules are used.
       </p>
 
       <Controller
         control={control}
         name="jd"
-        render={({field}) => (
+        render={({ field }) => (
           <textarea
             {...field}
             placeholder="Paste the job description here..."
@@ -109,9 +105,7 @@ export function GenerateForm({generating, onGenerate}: GenerateFormProps) {
         )}
       />
 
-      {errors.jd?.message && (
-        <p className="mt-1 text-xs text-red-600">{errors.jd.message}</p>
-      )}
+      {errors.jd?.message && <p className="mt-1 text-xs text-red-600">{errors.jd.message}</p>}
 
       <div className="mt-3">
         <label className="block text-xs font-medium text-slate-500 uppercase mb-1">
@@ -121,7 +115,7 @@ export function GenerateForm({generating, onGenerate}: GenerateFormProps) {
         <Controller
           control={control}
           name="directive"
-          render={({field}) => (
+          render={({ field }) => (
             <input
               {...field}
               type="text"

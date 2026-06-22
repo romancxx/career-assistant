@@ -1,14 +1,11 @@
-import type {
-  Pitch,
-  ProfileData,
-} from "@/interfaces/pitch-assistant";
+import type { Pitch, ProfileData } from "@/interfaces/pitch-assistant";
 
-import {FormCard} from "@/features/profile/components/card/FormCard";
-import {PitchCard} from "@/features/profile/components/card/PitchCard";
-import {PitchForm} from "@/features/profile/components/form/PitchForm";
-import {AddButton} from "@/features/profile/components/input/AddButton";
-import {VoiceFilterBar} from "@/features/profile/components/input/VoiceFilterBar";
-import type {LangFilter, PersonFilter} from "@/features/profile/data/useProfileEditor";
+import { FormCard } from "@/features/profile/components/card/FormCard";
+import { PitchCard } from "@/features/profile/components/card/PitchCard";
+import { PitchForm } from "@/features/profile/components/form/PitchForm";
+import { AddButton } from "@/features/profile/components/input/AddButton";
+import { VoiceFilterBar } from "@/features/profile/components/input/VoiceFilterBar";
+import type { LangFilter, PersonFilter } from "@/features/profile/data/useProfileEditor";
 
 interface Props {
   pitches: ProfileData["pitches"];
@@ -39,7 +36,7 @@ export function PitchesPanel({
   onEdit,
   onCancel,
   onSave,
-  onDelete,
+  onDelete
 }: Props) {
   return (
     <div className="space-y-3">
@@ -53,7 +50,7 @@ export function PitchesPanel({
       {showForm ? (
         <FormCard>
           <PitchForm
-            initial={pitches.find(p => p.id === editingId)?.payload}
+            initial={pitches.find((p) => p.id === editingId)?.payload}
             onSubmit={onSave}
             onCancel={onCancel}
           />
@@ -63,8 +60,8 @@ export function PitchesPanel({
       )}
 
       {visiblePitches
-        .filter(p => p.id !== editingId)
-        .map(p => (
+        .filter((p) => p.id !== editingId)
+        .map((p) => (
           <PitchCard
             key={p.id}
             pitch={p.payload}

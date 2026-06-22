@@ -1,4 +1,4 @@
-import type {RuleCandidateState} from "@/features/pitch-generation/data/usePitchGenerator";
+import type { RuleCandidateState } from "@/features/pitch-generation/data/usePitchGenerator";
 
 interface Props {
   candidate: RuleCandidateState;
@@ -8,12 +8,12 @@ interface Props {
 }
 
 export function RuleCandidateCard(props: Props) {
-  const {candidate, onTextChange, onApprove, onDiscard} = props;
+  const { candidate, onTextChange, onApprove, onDiscard } = props;
   return (
     <div className="border border-slate-200 rounded-md p-3 space-y-2">
       <textarea
         value={candidate.text}
-        onChange={e => onTextChange(e.target.value)}
+        onChange={(e) => onTextChange(e.target.value)}
         disabled={candidate.status !== "pending"}
         className="w-full p-2 border border-slate-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 disabled:bg-slate-50 disabled:text-slate-500"
         rows={2}

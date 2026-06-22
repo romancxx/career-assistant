@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Header, Post, Put, Res } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Res,
+} from "@nestjs/common";
 
 import type { Response } from "express";
-import type { Cv } from "@/cv-pdf/interfaces";
+import type { Cv, CvSummary } from "@/cv-pdf/interfaces";
 
 import { CvPdfService } from "@/cv-pdf/cv-pdf.service";
 import { CvPayloadDto } from "@/cv-pdf/dto/cv-payload-dto";
@@ -10,14 +21,30 @@ import { CvPayloadDto } from "@/cv-pdf/dto/cv-payload-dto";
 export class CvPdfController {
   constructor(private readonly service: CvPdfService) {}
 
-  @Get("data")
-  getData(): Cv {
-    return this.service.getData();
+  @Get()
+  list(): CvSummary[] {
+    return this.service.list();
   }
 
-  @Put("data")
-  saveData(@Body() body: CvPayloadDto): Cv {
-    return this.service.save(this.service.parse(body.cv));
+  @Post()
+  create(@Body() body: CvPayloadDto): CvSummary {
+    return this.service.create(this.service.parse(body.cv));
+  }
+
+  @Get(":id")
+  getData(@Param("id") id: string): Cv {
+    return this.service.getData(id);
+  }
+
+  @Put(":id")
+  saveData(@Param("id") id: string, @Body() body: CvPayloadDto): Cv {
+    return this.service.save(id, this.service.parse(body.cv));
+  }
+
+  @Delete(":id")
+  @HttpCode(204)
+  remove(@Param("id") id: string): void {
+    this.service.remove(id);
   }
 
   @Post("render")

@@ -1,32 +1,22 @@
-import {useState} from "react";
+import { useState } from "react";
 
-import {JdInputCard} from "@/features/tailor-cv/components/card/JdInputCard";
-import {AtsMatchSection} from "@/features/tailor-cv/components/section/AtsMatchSection";
-import {EducationSection} from "@/features/tailor-cv/components/section/EducationSection";
-import {ExperiencesSection} from "@/features/tailor-cv/components/section/ExperiencesSection";
-import {SkillsSection} from "@/features/tailor-cv/components/section/SkillsSection";
-import {SummarySection} from "@/features/tailor-cv/components/section/SummarySection";
-import {useTailorCvMutation} from "@/features/tailor-cv/data/useTailorCvMutation";
-import {downloadJson} from "@/features/tailor-cv/utils/download";
+import { JdInputCard } from "@/features/tailor-cv/components/card/JdInputCard";
+import { AtsMatchSection } from "@/features/tailor-cv/components/section/AtsMatchSection";
+import { EducationSection } from "@/features/tailor-cv/components/section/EducationSection";
+import { ExperiencesSection } from "@/features/tailor-cv/components/section/ExperiencesSection";
+import { SkillsSection } from "@/features/tailor-cv/components/section/SkillsSection";
+import { SummarySection } from "@/features/tailor-cv/components/section/SummarySection";
+import { useTailorCvMutation } from "@/features/tailor-cv/data/useTailorCvMutation";
+import { downloadJson } from "@/features/tailor-cv/utils/download";
 
 export function TailorCv() {
   const [jd, setJd] = useState("");
 
-  const {
-    mutate: tailor,
-    data: cv,
-    isPending: loading,
-    error,
-  } = useTailorCvMutation();
+  const { mutate: tailor, data: cv, isPending: loading, error } = useTailorCvMutation();
 
   return (
     <div className="space-y-6">
-      <JdInputCard
-        jd={jd}
-        loading={loading}
-        onChange={setJd}
-        onTailor={() => tailor(jd)}
-      />
+      <JdInputCard jd={jd} loading={loading} onChange={setJd} onTailor={() => tailor(jd)} />
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg text-sm">

@@ -1,10 +1,17 @@
 export interface Cv {
+  label?: string;
+  showPhoto?: boolean;
   basics: Basics;
   summary: string;
   experience: ExperienceEntry[];
   projects?: Project[];
   skills: SkillGroup[];
   education: Education[];
+}
+
+export interface CvSummary {
+  id: string;
+  label: string;
 }
 
 export interface Basics {

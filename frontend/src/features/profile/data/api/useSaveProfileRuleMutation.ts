@@ -1,10 +1,10 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import {ApiRoute} from "@/interfaces/api.interface";
-import type {Rule} from "@/interfaces/pitch-assistant";
+import { ApiRoute } from "@/interfaces/api.interface";
+import type { Rule } from "@/interfaces/pitch-assistant";
 
-import {PROFILE_KEY} from "@/features/profile/data/api/useProfileQuery";
-import {client} from "@/lib/client";
+import { PROFILE_KEY } from "@/features/profile/data/api/useProfileQuery";
+import { client } from "@/lib/client";
 
 export interface SaveProfileRuleParams {
   data: Rule;
@@ -14,13 +14,13 @@ export interface SaveProfileRuleParams {
 export function useSaveProfileRuleMutation() {
   const qc = useQueryClient();
   return useMutation<void, Error, SaveProfileRuleParams>({
-    mutationFn: async ({data, id}) => {
+    mutationFn: async ({ data, id }) => {
       if (id) {
         await client.put(`${ApiRoute.IngestRule}/${id}`, data);
       } else {
         await client.post(ApiRoute.IngestRule, data);
       }
     },
-    onSuccess: () => qc.invalidateQueries({queryKey: PROFILE_KEY}),
+    onSuccess: () => qc.invalidateQueries({ queryKey: PROFILE_KEY })
   });
 }

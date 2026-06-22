@@ -11,12 +11,18 @@
     "lint:code:fix": "eslint . --fix",
     "lint": "npm run lint:code",
     "lint:fix": "npm run lint:code:fix",
-    "verify": "npm run typecheck && npm run lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "npm run typecheck && npm run lint && npm run format:check",
     "pre-commit": "npm run verify && lint-staged",
     "preview": "vite preview"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --fix"
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": "prettier --write"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -30,19 +36,20 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@stylistic/eslint-plugin": "^5.10.0",
     "@tailwindcss/vite": "^4.3.0",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
     "lint-staged": "^17.0.7",
+    "prettier": "^3.8.4",
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",

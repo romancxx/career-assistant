@@ -1,36 +1,26 @@
-import {useState} from "react";
+import type { Cv } from "@/interfaces/cv-pdf";
 
-import type {Cv} from "@/interfaces/cv-pdf";
+import { useCvEditorQuery } from "@/features/cv-editor/data/api/useCvEditorQuery";
+import { useRenderCvPdfMutation } from "@/features/cv-editor/data/api/useRenderCvPdfMutation";
+import { useSaveCvMutation } from "@/features/cv-editor/data/api/useSaveCvMutation";
+import { toMessage } from "@/utils/errors";
 
-import {useCvEditorQuery} from "@/features/cv-editor/data/api/useCvEditorQuery";
-import {useRenderCvPdfMutation} from "@/features/cv-editor/data/api/useRenderCvPdfMutation";
-import {useSaveCvMutation} from "@/features/cv-editor/data/api/useSaveCvMutation";
-import {toMessage} from "@/utils/errors";
-
-export function useCvEditor() {
-  const {
-    data: serverCv,
-    error: queryError,
-    isPending: loading,
-  } = useCvEditorQuery();
+export function useCvEditor(id: string | null) {
+  const { data: serverCv, error: queryError, isPending: loading } = useCvEditorQuery(id);
 
   const {
     mutateAsync: saveCv,
-    reset: resetSave,
+    reset: resetSaved,
     error: saveError,
     isPending: saving,
-    isSuccess: saved,
-  } = useSaveCvMutation();
+    isSuccess: saved
+  } = useSaveCvMutation(id);
 
   const {
     mutateAsync: renderPdf,
     error: pdfError,
-    isPending: downloading,
+    isPending: downloading
   } = useRenderCvPdfMutation();
-
-  const [draft, setDraft] = useState<Cv | null>(null);
-
-  if (serverCv && !draft) setDraft(structuredClone(serverCv));
 
   const error =
     (queryError && toMessage(queryError)) ||
@@ -38,42 +28,26 @@ export function useCvEditor() {
     (pdfError && toMessage(pdfError)) ||
     null;
 
-  function update(fn: (d: Cv) => void) {
-    resetSave();
-    setDraft(prev => {
-      if (!prev) return prev;
-      const next = structuredClone(prev);
-      fn(next);
-      return next;
-    });
-  }
-
-  async function save() {
-    if (!draft) return;
-    const result = await saveCv(draft);
-    setDraft(structuredClone(result));
-  }
-
-  async function download() {
-    if (!draft) return;
-    const blob = await renderPdf(draft);
+  async function download(cv: Cv) {
+    const blob = await renderPdf(cv);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
+
     a.href = url;
-    a.download = `${draft.basics.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
+    a.download = `${cv.basics.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
     a.click();
     URL.revokeObjectURL(url);
   }
 
   return {
-    cv: draft,
+    serverCv,
     loading,
     error,
     saving,
     saved,
+    resetSaved,
     downloading,
-    update,
-    save,
-    download,
+    save: saveCv,
+    download
   };
 }

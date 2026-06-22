@@ -1,7 +1,7 @@
-import type {Language, Person} from "@/interfaces/pitch-assistant";
-import {LANGUAGE_LABELS, PERSON_LABELS} from "@/interfaces/pitch-assistant";
+import type { Language, Person } from "@/interfaces/pitch-assistant";
+import { LANGUAGE_LABELS, PERSON_LABELS } from "@/interfaces/pitch-assistant";
 
-import type {LangFilter, PersonFilter} from "@/features/profile/data/useProfileEditor";
+import type { LangFilter, PersonFilter } from "@/features/profile/data/useProfileEditor";
 
 interface Props {
   langFilter: LangFilter;
@@ -14,14 +14,14 @@ export function VoiceFilterBar({
   langFilter,
   personFilter,
   onLangFilterChange,
-  onPersonFilterChange,
+  onPersonFilterChange
 }: Props) {
   return (
     <div className="flex gap-4 flex-wrap">
       <div className="flex gap-1 items-center">
         <span className="text-xs text-slate-500 mr-1">Language:</span>
 
-        {(["all", ...Object.keys(LANGUAGE_LABELS)] as LangFilter[]).map(l => (
+        {(["all", ...Object.keys(LANGUAGE_LABELS)] as LangFilter[]).map((l) => (
           <button
             key={l}
             onClick={() => onLangFilterChange(l)}
@@ -39,7 +39,7 @@ export function VoiceFilterBar({
       <div className="flex gap-1 items-center">
         <span className="text-xs text-slate-500 mr-1">Person:</span>
 
-        {(["all", ...Object.keys(PERSON_LABELS)] as PersonFilter[]).map(p => (
+        {(["all", ...Object.keys(PERSON_LABELS)] as PersonFilter[]).map((p) => (
           <button
             key={p}
             onClick={() => onPersonFilterChange(p)}

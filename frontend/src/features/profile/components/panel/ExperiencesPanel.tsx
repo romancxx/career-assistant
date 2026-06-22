@@ -1,12 +1,9 @@
-import type {
-  Experience,
-  ProfileData,
-} from "@/interfaces/pitch-assistant";
+import type { Experience, ProfileData } from "@/interfaces/pitch-assistant";
 
-import {ExperienceCard} from "@/features/profile/components/card/ExperienceCard";
-import {FormCard} from "@/features/profile/components/card/FormCard";
-import {ExperienceForm} from "@/features/profile/components/form/ExperienceForm";
-import {AddButton} from "@/features/profile/components/input/AddButton";
+import { ExperienceCard } from "@/features/profile/components/card/ExperienceCard";
+import { FormCard } from "@/features/profile/components/card/FormCard";
+import { ExperienceForm } from "@/features/profile/components/form/ExperienceForm";
+import { AddButton } from "@/features/profile/components/input/AddButton";
 
 interface Props {
   experiences: ProfileData["experiences"];
@@ -27,14 +24,14 @@ export function ExperiencesPanel({
   onEdit,
   onCancel,
   onSave,
-  onDelete,
+  onDelete
 }: Props) {
   return (
     <div className="space-y-3">
       {showForm ? (
         <FormCard>
           <ExperienceForm
-            initial={experiences.find(e => e.id === editingId)?.payload}
+            initial={experiences.find((e) => e.id === editingId)?.payload}
             onSubmit={onSave}
             onCancel={onCancel}
           />
@@ -44,8 +41,8 @@ export function ExperiencesPanel({
       )}
 
       {experiences
-        .filter(e => e.id !== editingId)
-        .map(e => (
+        .filter((e) => e.id !== editingId)
+        .map((e) => (
           <ExperienceCard
             key={e.id}
             experience={e.payload}

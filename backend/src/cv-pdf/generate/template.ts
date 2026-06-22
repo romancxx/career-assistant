@@ -21,6 +21,7 @@ const PHOTO_FILES = ["photo.jpg", "photo.jpeg", "photo.png", "photo.webp"];
 function findPhoto(): string | null {
   for (const name of PHOTO_FILES) {
     const file = path.join(DATA_DIR, name);
+
     if (fs.existsSync(file)) {
       const ext = path.extname(file).slice(1).toLowerCase();
       const mime = ext === "jpg" ? "jpeg" : ext;
@@ -49,7 +50,7 @@ function stripScheme(url: string): string {
 }
 
 function contact(basics: Basics): string {
-  const lines = [basics.email, basics.phone, basics.location]
+  const lines = [basics.location, basics.email, basics.phone]
     .filter((p): p is string => Boolean(p))
     .map((p) => `<div>${esc(p)}</div>`);
 
@@ -84,6 +85,7 @@ function roleEntry(entry: RoleEntry): string {
   const dates = entry.duration
     ? `${entry.start} - ${entry.end} (${entry.duration})`
     : `${entry.start} - ${entry.end}`;
+
   return `<div class="entry">
   <div class="entry-head">
     <span class="entry-title">${esc(entry.company)} - ${esc(entry.role)}</span>
@@ -150,7 +152,9 @@ function section(title: string, body: string): string {
 
 export function renderCvHtml(cv: Cv): string {
   const { basics } = cv;
-  const photo = findPhoto();
+
+  const photo = cv.showPhoto === false ? null : findPhoto();
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>

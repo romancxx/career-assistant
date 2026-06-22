@@ -3,7 +3,7 @@ interface Props {
   onClick: () => void;
 }
 
-export function AddButton({label, onClick}: Props) {
+export function AddButton({ label, onClick }: Props) {
   return (
     <button
       onClick={onClick}

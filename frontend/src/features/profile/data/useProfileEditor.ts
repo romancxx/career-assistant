@@ -1,8 +1,15 @@
-import {useState} from "react";
+import { useState } from "react";
 
-import type {Experience, Language, Person, Pitch, Rule, Skill} from "@/interfaces/pitch-assistant";
+import type {
+  Experience,
+  Language,
+  Person,
+  Pitch,
+  Rule,
+  Skill
+} from "@/interfaces/pitch-assistant";
 
-import {useProfile, type ProfileTab} from "@/features/profile/data/useProfile";
+import { useProfile, type ProfileTab } from "@/features/profile/data/useProfile";
 
 export type LangFilter = Language | "all";
 export type PersonFilter = Person | "all";
@@ -41,16 +48,16 @@ export function useProfileEditor() {
     const id = editingId ?? undefined;
     switch (type) {
       case "experiences":
-        await profile.saveExperienceAsync({data: payload as Experience, id});
+        await profile.saveExperienceAsync({ data: payload as Experience, id });
         break;
       case "skills":
-        await profile.saveSkillAsync({data: payload as Skill, id});
+        await profile.saveSkillAsync({ data: payload as Skill, id });
         break;
       case "pitches":
-        await profile.savePitchAsync({data: payload as Pitch, id});
+        await profile.savePitchAsync({ data: payload as Pitch, id });
         break;
       case "rules":
-        await profile.saveRuleAsync({data: payload as Rule, id});
+        await profile.saveRuleAsync({ data: payload as Rule, id });
         break;
     }
     closeForm();
@@ -90,6 +97,6 @@ export function useProfileEditor() {
     startEditing,
     closeForm,
     handleSave,
-    handleDelete,
+    handleDelete
   };
 }

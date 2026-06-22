@@ -5,16 +5,14 @@ interface Props {
   onTailor: () => void;
 }
 
-export function JdInputCard({jd, loading, onChange, onTailor}: Props) {
+export function JdInputCard({ jd, loading, onChange, onTailor }: Props) {
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
-      <label className="block text-sm font-medium text-slate-700">
-        Job description
-      </label>
+      <label className="block text-sm font-medium text-slate-700">Job description</label>
 
       <textarea
         value={jd}
-        onChange={e => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         placeholder="Paste the job description…"
         className="w-full min-h-[200px] p-3 border border-slate-200 rounded-md font-mono text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
       />

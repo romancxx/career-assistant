@@ -87,7 +87,7 @@ h2 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
   break-after: avoid;
 }
 
@@ -133,7 +133,7 @@ p.summary { text-align: justify; padding-top: 10px; padding-bottom: 10px; }
 ul.highlights { list-style: disc; padding-left: 18px; margin-top: 4px; font-size: 10pt; line-height: 1.3; }
 ul.highlights li { margin-bottom: 2.5px; break-inside: avoid; }
 
-.skill-group { margin-bottom: 2px; }
+.skill-group { margin-bottom: 1px; }
 .skill-group .label { font-weight: 700; }
 
 .edu-entry { break-inside: avoid; }

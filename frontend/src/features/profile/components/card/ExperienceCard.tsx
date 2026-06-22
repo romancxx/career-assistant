@@ -1,6 +1,6 @@
-import type {Experience} from "@/interfaces/pitch-assistant";
+import type { Experience } from "@/interfaces/pitch-assistant";
 
-import {ItemActions} from "@/features/profile/components/input/ItemActions";
+import { ItemActions } from "@/features/profile/components/input/ItemActions";
 
 interface Props {
   experience: Experience;
@@ -8,7 +8,7 @@ interface Props {
   onDelete: () => void;
 }
 
-export function ExperienceCard({experience, onEdit, onDelete}: Props) {
+export function ExperienceCard({ experience, onEdit, onDelete }: Props) {
   return (
     <div className="bg-white border border-slate-200 rounded-lg p-4">
       <div className="flex items-start justify-between">
@@ -26,7 +26,7 @@ export function ExperienceCard({experience, onEdit, onDelete}: Props) {
       </div>
 
       <div className="flex flex-wrap gap-1 mb-2">
-        {experience.stack?.map(s => (
+        {experience.stack?.map((s) => (
           <span key={s} className="px-2 py-0.5 bg-slate-100 rounded text-xs">
             {s}
           </span>
