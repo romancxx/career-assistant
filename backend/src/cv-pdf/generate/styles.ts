@@ -136,16 +136,16 @@ ul.highlights li { margin-bottom: 2.5px; break-inside: avoid; }
 .skill-group { margin-bottom: 1px; }
 .skill-group .label { font-weight: 700; }
 
-.edu-entry { break-inside: avoid; }
-.edu-entry + .edu-entry { margin-top: 10px; }
+.edu-entry { break-inside: avoid; line-height: 1.4; }
+.edu-entry + .edu-entry { margin-top: 6px; }
 .edu-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
 }
-.edu-school { font-weight: 700; }
-.edu-program { font-weight: 700; font-size: 10pt; }
-.edu-notes { font-size: 9.5pt; color: #444; margin-top: 1px; }
+.edu-school { font-weight: 700; font-size: 10pt; }
+.edu-program { font-weight: 600; font-size: 9.5pt; }
+.edu-notes { font-size: 9pt; color: #444; margin-top: 1px; }
 `.trim();
 }
