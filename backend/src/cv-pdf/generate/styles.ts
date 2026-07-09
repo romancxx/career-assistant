@@ -3,11 +3,15 @@ import * as path from "path";
 
 const FONT_DIR = path.join(__dirname, "..", "fonts");
 
-function fontFace(file: string, weight: number): string {
+function fontFace(
+  file: string,
+  weight: number,
+  style: "normal" | "italic" = "normal",
+): string {
   const data = fs.readFileSync(path.join(FONT_DIR, file)).toString("base64");
   return `@font-face {
   font-family: 'Carlito';
-  font-style: normal;
+  font-style: ${style};
   font-weight: ${weight};
   src: url(data:font/truetype;charset=utf-8;base64,${data}) format('truetype');
 }`;
@@ -17,6 +21,8 @@ export function renderStyles(): string {
   return `
 ${fontFace("Carlito-Regular.ttf", 400)}
 ${fontFace("Carlito-Bold.ttf", 700)}
+${fontFace("Carlito-Italic.ttf", 400, "italic")}
+${fontFace("Carlito-BoldItalic.ttf", 700, "italic")}
 
 @page {
   size: A4;

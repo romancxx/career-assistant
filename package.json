@@ -2,9 +2,14 @@
   "name": "career-assistant",
   "private": true,
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "dev": "npm run db:up && concurrently --kill-others --prefix-colors auto --names api,web \"npm --prefix backend run start:dev\" \"npm --prefix frontend run dev\"",
+    "dev:down": "npm run db:down"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "husky": "^9.1.7"
   }
 }
