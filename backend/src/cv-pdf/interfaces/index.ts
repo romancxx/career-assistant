@@ -43,7 +43,6 @@ export interface GroupedExperience {
 export interface Engagement {
   selected?: boolean;
   client: string;
-  role: string;
   duration: string;
   tagline?: string;
   highlights: string[];

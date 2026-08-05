@@ -62,9 +62,7 @@ function contact(basics: Basics): string {
 
 function engagement(e: Engagement): string {
   return `<div class="engagement">
-  <div class="engagement-title">${esc(e.client)} - ${esc(e.role)} (${esc(
-    e.duration,
-  )})</div>
+  <div class="engagement-title">${esc(e.client)} (${esc(e.duration)})</div>
   ${e.tagline ? `<p class="tagline">${esc(e.tagline)}</p>` : ""}
   ${highlights(e.highlights)}
 </div>`;

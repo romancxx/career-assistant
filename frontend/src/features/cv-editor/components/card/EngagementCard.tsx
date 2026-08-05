@@ -21,17 +21,11 @@ export function EngagementCard({ experienceIndex, index }: Props) {
         <SelectExperienceCheckbox name={`${base}.selected`} label="Include on CV" />
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         <Controller
           control={control}
           name={`${base}.client`}
           render={({ field }) => <FieldInput {...field} label="Client" />}
-        />
-
-        <Controller
-          control={control}
-          name={`${base}.role`}
-          render={({ field }) => <FieldInput {...field} label="Role" />}
         />
 
         <Controller

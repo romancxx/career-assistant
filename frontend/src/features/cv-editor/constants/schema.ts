@@ -32,7 +32,6 @@ const roleEntrySchema = object({
 const engagementSchema = object({
   selected: boolean().default(true),
   client: string().trim().required("Client is required"),
-  role: string().trim().default(""),
   duration: string().trim().default(""),
   tagline: string().trim().optional(),
   highlights
