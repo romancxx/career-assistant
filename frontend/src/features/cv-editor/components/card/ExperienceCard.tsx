@@ -94,8 +94,10 @@ export function ExperienceCard({ index, kind }: Props) {
       <div className="mt-3">
         <Controller
           control={control}
-          name={`experience.${index}.note`}
-          render={({ field }) => <FieldInput {...field} value={field.value ?? ""} label="Note" />}
+          name={`experience.${index}.subtitle`}
+          render={({ field }) => (
+            <FieldInput {...field} value={field.value ?? ""} label="Subtitle" />
+          )}
         />
       </div>
 

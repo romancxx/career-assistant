@@ -19,10 +19,18 @@ function fontFace(
 
 export function renderStyles(): string {
   return `
+/**
+FONTS
+**/
+
 ${fontFace("Carlito-Regular.ttf", 400)}
 ${fontFace("Carlito-Bold.ttf", 700)}
 ${fontFace("Carlito-Italic.ttf", 400, "italic")}
 ${fontFace("Carlito-BoldItalic.ttf", 700, "italic")}
+
+/**
+PAGE & BASE
+**/
 
 @page {
   size: A4;
@@ -43,6 +51,10 @@ html {
 body { orphans: 3; widows: 3; }
 
 a { color: inherit; text-decoration: none; }
+
+/**
+HEADER — name, headline, contact, photo
+**/
 
 header {
   display: flex;
@@ -80,13 +92,16 @@ h1 {
   flex-shrink: 0;
 }
 
+/**
+SECTIONS — wrapper, titles, summary
+**/
+
 section {
   padding-top: 8px;
   padding-bottom: 6px;
   border-bottom: 1px solid #aeaeae;
 }
 section:last-of-type { border-bottom: none; }
-
 
 h2 {
   font-size: 12.5pt;
@@ -101,8 +116,11 @@ h2 {
 
 p.summary { text-align: justify; padding-top: 10px; padding-bottom: 10px; }
 
+/**
+ENTRIES — shared by experience and projects
+**/
+
 .entry { break-inside: avoid; }
-.entry-grouped { break-inside: auto; }
 .entry + .entry {
   margin-top: 8px;
   padding-top: 8px;
@@ -125,22 +143,34 @@ p.summary { text-align: justify; padding-top: 10px; padding-bottom: 10px; }
   color: #555;
 }
 
-.entry-note {
-  font-size: 9.5pt;
-  font-style: italic;
-  text-decoration: underline;
-  color: #333;
-  margin-top: 8px;
-}
-
-.engagement { break-inside: auto; margin-top: 6px; }
-.engagement-title { font-size: 10.5pt; font-weight: 700; }
-
 ul.highlights { list-style: disc; padding-left: 18px; margin-top: 4px; font-size: 10pt; line-height: 1.3; }
 ul.highlights li { margin-bottom: 2.5px; break-inside: avoid; }
 
+/**
+EXPERIENCE — grouped entries and their engagements
+**/
+
+.entry-grouped { break-inside: auto; }
+
+.entry-subtitle {
+  font-size: 9.5pt;
+  color: #555;
+}
+
+.engagement { break-inside: auto; margin-top: 6px; }
+.engagement-title { font-size: 10pt; font-weight: 700; }
+.engagement-duration { font-size: 10pt; font-weight: 400; }
+
+/**
+SKILLS
+**/
+
 .skill-group { margin-bottom: 1px; }
 .skill-group .label { font-weight: 700; }
+
+/**
+EDUCATION
+**/
 
 .edu-entry { break-inside: avoid; line-height: 1.4; }
 .edu-entry + .edu-entry { margin-top: 6px; }

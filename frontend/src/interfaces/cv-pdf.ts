@@ -36,7 +36,7 @@ export interface GroupedExperience {
   title: string;
   start: string;
   end: string;
-  note?: string;
+  subtitle?: string;
   engagements: Engagement[];
 }
 
@@ -55,7 +55,6 @@ export interface RoleEntry {
   role: string;
   start: string;
   end: string;
-  duration?: string;
   tagline?: string;
   highlights: string[];
 }

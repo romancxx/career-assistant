@@ -24,7 +24,6 @@ const roleEntrySchema = object({
   role: string().trim().default(""),
   start: string().trim().default(""),
   end: string().trim().default(""),
-  duration: string().trim().optional(),
   tagline: string().trim().optional(),
   highlights
 });
@@ -43,7 +42,7 @@ const groupedExperienceSchema = object({
   title: string().trim().required("Title is required"),
   start: string().trim().default(""),
   end: string().trim().default(""),
-  note: string().trim().optional(),
+  subtitle: string().trim().optional(),
   engagements: array(engagementSchema).min(1, "At least one engagement is required").default([])
 });
 

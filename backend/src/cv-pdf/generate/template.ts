@@ -62,7 +62,9 @@ function contact(basics: Basics): string {
 
 function engagement(e: Engagement): string {
   return `<div class="engagement">
-  <div class="engagement-title">${esc(e.client)} (${esc(e.duration)})</div>
+  <div class="engagement-title">${esc(e.client)} <span class="engagement-duration">(${esc(
+    e.duration,
+  )})</span></div>
   ${e.tagline ? `<p class="tagline">${esc(e.tagline)}</p>` : ""}
   ${highlights(e.highlights)}
 </div>`;
@@ -74,20 +76,16 @@ function groupedEntry(entry: GroupedExperience): string {
     <span class="entry-title">${esc(entry.title)}</span>
     <span class="entry-dates">${esc(entry.start)} - ${esc(entry.end)}</span>
   </div>
+  ${entry.subtitle ? `<p class="entry-subtitle">${esc(entry.subtitle)}</p>` : ""}
   ${entry.engagements.map(engagement).join("\n")}
-  ${entry.note ? `<p class="entry-note">${esc(entry.note)}</p>` : ""}
 </div>`;
 }
 
 function roleEntry(entry: RoleEntry): string {
-  const dates = entry.duration
-    ? `${entry.start} - ${entry.end} (${entry.duration})`
-    : `${entry.start} - ${entry.end}`;
-
   return `<div class="entry">
   <div class="entry-head">
     <span class="entry-title">${esc(entry.company)} - ${esc(entry.role)}</span>
-    <span class="entry-dates">${esc(dates)}</span>
+    <span class="entry-dates">${esc(entry.start)} - ${esc(entry.end)}</span>
   </div>
   ${entry.tagline ? `<p class="tagline">${esc(entry.tagline)}</p>` : ""}
   ${highlights(entry.highlights)}
