@@ -32,6 +32,7 @@ export type ExperienceEntry = GroupedExperience | RoleEntry;
 
 export interface GroupedExperience {
   kind: "grouped";
+  selected?: boolean;
   title: string;
   start: string;
   end: string;
@@ -40,6 +41,7 @@ export interface GroupedExperience {
 }
 
 export interface Engagement {
+  selected?: boolean;
   client: string;
   role: string;
   duration: string;
@@ -49,6 +51,7 @@ export interface Engagement {
 
 export interface RoleEntry {
   kind: "role";
+  selected?: boolean;
   company: string;
   role: string;
   start: string;

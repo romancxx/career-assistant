@@ -19,6 +19,7 @@ const highlights = array(string().trim().default(""))
 
 const roleEntrySchema = object({
   kind: mixed<"role">().oneOf(["role"]).required(),
+  selected: boolean().default(true),
   company: string().trim().required("Company is required"),
   role: string().trim().default(""),
   start: string().trim().default(""),
@@ -29,6 +30,7 @@ const roleEntrySchema = object({
 });
 
 const engagementSchema = object({
+  selected: boolean().default(true),
   client: string().trim().required("Client is required"),
   role: string().trim().default(""),
   duration: string().trim().default(""),
@@ -38,6 +40,7 @@ const engagementSchema = object({
 
 const groupedExperienceSchema = object({
   kind: mixed<"grouped">().oneOf(["grouped"]).required(),
+  selected: boolean().default(true),
   title: string().trim().required("Title is required"),
   start: string().trim().default(""),
   end: string().trim().default(""),

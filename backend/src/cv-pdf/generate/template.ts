@@ -109,6 +109,20 @@ function experienceEntry(entry: ExperienceEntry): string {
   }
 }
 
+function selectedExperience(entries: ExperienceEntry[]): ExperienceEntry[] {
+  return entries
+    .filter((entry) => entry.selected !== false)
+    .map((entry) =>
+      entry.kind === "grouped"
+        ? {
+            ...entry,
+            engagements: entry.engagements.filter((e) => e.selected !== false),
+          }
+        : entry,
+    )
+    .filter((entry) => entry.kind !== "grouped" || entry.engagements.length > 0);
+}
+
 function project(p: Project): string {
   return `<div class="entry">
   <div class="entry-head">
@@ -174,7 +188,10 @@ export function renderCvHtml(cv: Cv): string {
 <p class="summary">${esc(cv.summary)}</p>
 <div class="separator"></div>
 
-${section("Work Experience", cv.experience.map(experienceEntry).join("\n"))}
+${section(
+  "Work Experience",
+  selectedExperience(cv.experience).map(experienceEntry).join("\n"),
+)}
 ${
   cv.projects?.length
     ? section("Projects", cv.projects.map(project).join("\n"))

@@ -4,6 +4,7 @@ import type { Cv } from "@/interfaces/cv-pdf";
 
 import { EngagementCard } from "@/features/cv-editor/components/card/EngagementCard";
 import { HighlightsArray } from "@/features/cv-editor/components/experience/HighlightsArray";
+import { SelectExperienceCheckbox } from "@/features/cv-editor/components/experience/SelectExperienceCheckbox";
 import { FieldInput } from "@/components/input/FieldInput";
 
 interface Props {
@@ -17,6 +18,10 @@ export function ExperienceCard({ index, kind }: Props) {
   if (kind === "role") {
     return (
       <div className="border border-slate-200 rounded-md p-4 bg-white">
+        <div className="mb-3">
+          <SelectExperienceCheckbox name={`experience.${index}.selected`} label="Include on CV" />
+        </div>
+
         <div className="grid grid-cols-2 gap-3">
           <Controller
             control={control}
@@ -60,6 +65,10 @@ export function ExperienceCard({ index, kind }: Props) {
 
   return (
     <div className="border border-slate-200 rounded-md p-4 bg-white">
+      <div className="mb-3">
+        <SelectExperienceCheckbox name={`experience.${index}.selected`} label="Include on CV" />
+      </div>
+
       <div className="grid grid-cols-2 gap-3">
         <Controller
           control={control}

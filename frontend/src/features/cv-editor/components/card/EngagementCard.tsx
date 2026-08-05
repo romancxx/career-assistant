@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import type { Cv } from "@/interfaces/cv-pdf";
 
 import { HighlightsArray } from "@/features/cv-editor/components/experience/HighlightsArray";
+import { SelectExperienceCheckbox } from "@/features/cv-editor/components/experience/SelectExperienceCheckbox";
 import { FieldInput } from "@/components/input/FieldInput";
 
 interface Props {
@@ -16,6 +17,10 @@ export function EngagementCard({ experienceIndex, index }: Props) {
 
   return (
     <div>
+      <div className="mb-3">
+        <SelectExperienceCheckbox name={`${base}.selected`} label="Include on CV" />
+      </div>
+
       <div className="grid grid-cols-3 gap-3">
         <Controller
           control={control}
