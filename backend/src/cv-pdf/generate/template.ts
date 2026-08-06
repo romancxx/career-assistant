@@ -62,12 +62,17 @@ function contact(basics: Basics): string {
 
 function engagement(e: Engagement): string {
   return `<div class="engagement">
-  <div class="engagement-title">${esc(e.client)} <span class="engagement-duration">(${esc(
-    e.duration,
-  )})</span></div>
+  <div class="engagement-head">
+    <span class="engagement-title">${esc(e.client)}</span>
+    <span class="engagement-duration">${esc(e.duration)}</span>
+  </div>
   ${e.tagline ? `<p class="tagline">${esc(e.tagline)}</p>` : ""}
   ${highlights(e.highlights)}
 </div>`;
+}
+
+function engagements(items: Engagement[]): string {
+  return `<div class="engagements">${items.map(engagement).join("\n")}</div>`;
 }
 
 function groupedEntry(entry: GroupedExperience): string {
@@ -77,7 +82,7 @@ function groupedEntry(entry: GroupedExperience): string {
     <span class="entry-dates">${esc(entry.start)} - ${esc(entry.end)}</span>
   </div>
   ${entry.subtitle ? `<p class="entry-subtitle">${esc(entry.subtitle)}</p>` : ""}
-  ${entry.engagements.map(engagement).join("\n")}
+  ${engagements(entry.engagements)}
 </div>`;
 }
 

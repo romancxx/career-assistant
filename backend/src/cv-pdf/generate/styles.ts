@@ -156,9 +156,22 @@ EXPERIENCE — grouped entries and their engagements
   font-size: 9.5pt;
 }
 
+/* engagements sit indented under their umbrella heading so they read as part
+   of it rather than as standalone roles */
+.engagements { padding-left: 10px; }
+
 .engagement { break-inside: auto; margin-top: 6px; }
+
+.engagement-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  break-after: avoid;
+}
+
 .engagement-title { font-size: 10pt; font-weight: 700; }
-.engagement-duration { font-size: 10pt; font-weight: 400; }
+.engagement-duration { font-size: 9.5pt; white-space: nowrap; }
 
 /**
 SKILLS
