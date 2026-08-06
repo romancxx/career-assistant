@@ -154,7 +154,6 @@ EXPERIENCE — grouped entries and their engagements
 
 .entry-subtitle {
   font-size: 9.5pt;
-  color: #555;
 }
 
 .engagement { break-inside: auto; margin-top: 6px; }
