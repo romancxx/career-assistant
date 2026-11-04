@@ -17,6 +17,8 @@ const highlights = array(string().trim().default(""))
   .transform((arr: string[]) => (arr ?? []).filter(Boolean))
   .default([]);
 
+const tags = array(string().trim().required()).default([]);
+
 const roleEntrySchema = object({
   kind: mixed<"role">().oneOf(["role"]).required(),
   selected: boolean().default(true),
@@ -24,7 +26,7 @@ const roleEntrySchema = object({
   role: string().trim().default(""),
   start: string().trim().default(""),
   end: string().trim().default(""),
-  tagline: string().trim().optional(),
+  tags,
   highlights
 });
 
@@ -32,7 +34,7 @@ const engagementSchema = object({
   selected: boolean().default(true),
   client: string().trim().required("Client is required"),
   duration: string().trim().default(""),
-  tagline: string().trim().optional(),
+  tags,
   highlights
 });
 
@@ -74,7 +76,7 @@ export const cvSchema = object({
   projects: array(
     object({
       name: string().trim().required("Name is required"),
-      description: string().trim().optional(),
+      tags,
       link: string().trim().optional(),
       highlights
     })

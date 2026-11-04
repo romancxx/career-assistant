@@ -44,7 +44,7 @@ export interface Engagement {
   selected?: boolean;
   client: string;
   duration: string;
-  tagline?: string;
+  tags?: string[];
   highlights: string[];
 }
 
@@ -55,13 +55,13 @@ export interface RoleEntry {
   role: string;
   start: string;
   end: string;
-  tagline?: string;
+  tags?: string[];
   highlights: string[];
 }
 
 export interface Project {
   name: string;
-  description?: string;
+  tags?: string[];
   link?: string;
   highlights: string[];
 }

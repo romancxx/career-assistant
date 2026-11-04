@@ -45,6 +45,12 @@ function highlights(items: string[]): string {
     .join("")}</ul>`;
 }
 
+function tags(items: string[] | undefined): string {
+  return items?.length
+    ? ` <span class="tags">(${items.map(esc).join(" · ")})</span>`
+    : "";
+}
+
 function stripScheme(url: string): string {
   return url.replace(/^https?:\/\//, "");
 }
@@ -63,10 +69,9 @@ function contact(basics: Basics): string {
 function engagement(e: Engagement): string {
   return `<div class="engagement">
   <div class="engagement-head">
-    <span class="engagement-title">${esc(e.client)}</span>
+    <span class="engagement-title">${esc(e.client)}${tags(e.tags)}</span>
     <span class="engagement-duration">${esc(e.duration)}</span>
   </div>
-  ${e.tagline ? `<p class="tagline">${esc(e.tagline)}</p>` : ""}
   ${highlights(e.highlights)}
 </div>`;
 }
@@ -87,12 +92,13 @@ function groupedEntry(entry: GroupedExperience): string {
 }
 
 function roleEntry(entry: RoleEntry): string {
+  const title = [entry.role, entry.company].filter(Boolean).map(esc).join(", ");
+
   return `<div class="entry">
   <div class="entry-head">
-    <span class="entry-title">${esc(entry.company)} - ${esc(entry.role)}</span>
+    <span class="entry-title">${title}${tags(entry.tags)}</span>
     <span class="entry-dates">${esc(entry.start)} - ${esc(entry.end)}</span>
   </div>
-  ${entry.tagline ? `<p class="tagline">${esc(entry.tagline)}</p>` : ""}
   ${highlights(entry.highlights)}
 </div>`;
 }
@@ -127,7 +133,7 @@ function selectedExperience(entries: ExperienceEntry[]): ExperienceEntry[] {
 function project(p: Project): string {
   return `<div class="entry">
   <div class="entry-head">
-    <span class="entry-title">${esc(p.name)}</span>
+    <span class="entry-title">${esc(p.name)}${tags(p.tags)}</span>
     ${
       p.link
         ? `<span class="entry-dates"><a href="${esc(p.link)}">${esc(
@@ -136,7 +142,6 @@ function project(p: Project): string {
         : ""
     }
   </div>
-  ${p.description ? `<p class="tagline">${esc(p.description)}</p>` : ""}
   ${highlights(p.highlights)}
 </div>`;
 }
@@ -150,10 +155,12 @@ function skillGroup(g: SkillGroup): string {
 function educationEntry(e: Education): string {
   return `<div class="edu-entry">
   <div class="edu-head">
-    <span class="edu-school">${esc(e.institution)}</span>
+    <span>
+      <span class="edu-school">${esc(e.institution)}</span> -
+      <span class="edu-program">${esc(e.program)}</span>
+    </span>
     <span class="entry-dates">${esc(e.start)} - ${esc(e.end)}</span>
   </div>
-  <div class="edu-program">${esc(e.program)}</div>
   ${e.notes ? `<div class="edu-notes">${esc(e.notes)}</div>` : ""}
 </div>`;
 }

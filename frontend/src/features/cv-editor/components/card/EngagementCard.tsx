@@ -4,6 +4,7 @@ import type { Cv } from "@/interfaces/cv-pdf";
 
 import { HighlightsArray } from "@/features/cv-editor/components/experience/HighlightsArray";
 import { SelectExperienceCheckbox } from "@/features/cv-editor/components/experience/SelectExperienceCheckbox";
+import { TagsInput } from "@/features/cv-editor/components/input/TagsInput";
 import { FieldInput } from "@/components/input/FieldInput";
 
 interface Props {
@@ -36,13 +37,7 @@ export function EngagementCard({ experienceIndex, index }: Props) {
       </div>
 
       <div className="mt-3">
-        <Controller
-          control={control}
-          name={`${base}.tagline`}
-          render={({ field }) => (
-            <FieldInput {...field} value={field.value ?? ""} label="Tagline" />
-          )}
-        />
+        <TagsInput name={`${base}.tags`} />
       </div>
 
       <HighlightsArray name={`${base}.highlights`} />

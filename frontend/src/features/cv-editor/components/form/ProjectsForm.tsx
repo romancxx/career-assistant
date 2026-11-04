@@ -6,9 +6,10 @@ import { Card } from "@/features/cv-editor/components/card/Card";
 import { HighlightsArray } from "@/features/cv-editor/components/experience/HighlightsArray";
 import { AddBtn } from "@/features/cv-editor/components/input/AddBtn";
 import { RemoveBtn } from "@/features/cv-editor/components/input/RemoveBtn";
+import { TagsInput } from "@/features/cv-editor/components/input/TagsInput";
 import { FieldInput } from "@/components/input/FieldInput";
 
-const EMPTY_PROJECT = { name: "", description: "", link: "", highlights: [] };
+const EMPTY_PROJECT = { name: "", tags: [], link: "", highlights: [] };
 
 export function ProjectsForm() {
   const {
@@ -50,13 +51,7 @@ export function ProjectsForm() {
               <RemoveBtn onClick={() => remove(i)} />
             </div>
 
-            <Controller
-              control={control}
-              name={`projects.${i}.description`}
-              render={({ field }) => (
-                <FieldInput {...field} value={field.value ?? ""} label="Description" />
-              )}
-            />
+            <TagsInput name={`projects.${i}.tags`} />
 
             <HighlightsArray name={`projects.${i}.highlights`} />
           </div>
