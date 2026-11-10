@@ -17,7 +17,7 @@ const highlights = array(string().trim().default(""))
   .transform((arr: string[]) => (arr ?? []).filter(Boolean))
   .default([]);
 
-const tags = array(string().trim().required()).default([]);
+const stringList = array(string().trim().required()).default([]);
 
 const roleEntrySchema = object({
   kind: mixed<"role">().oneOf(["role"]).required(),
@@ -26,16 +26,18 @@ const roleEntrySchema = object({
   role: string().trim().default(""),
   start: string().trim().default(""),
   end: string().trim().default(""),
-  tags,
-  highlights
+  tags: stringList,
+  highlights,
+  stack: stringList
 });
 
 const engagementSchema = object({
   selected: boolean().default(true),
   client: string().trim().required("Client is required"),
   duration: string().trim().default(""),
-  tags,
-  highlights
+  tags: stringList,
+  highlights,
+  stack: stringList
 });
 
 const groupedExperienceSchema = object({
@@ -76,9 +78,10 @@ export const cvSchema = object({
   projects: array(
     object({
       name: string().trim().required("Name is required"),
-      tags,
+      tags: stringList,
       link: string().trim().optional(),
-      highlights
+      highlights,
+      stack: stringList
     })
   ).optional(),
   skills: array(

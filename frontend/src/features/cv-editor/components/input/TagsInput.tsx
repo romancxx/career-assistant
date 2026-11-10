@@ -9,11 +9,12 @@ import { splitList } from "@/features/cv-editor/utils/strings";
 import { FieldInput } from "@/components/input/FieldInput";
 
 interface Props {
-  // Dot-path to a `string[]` tags field within the CV (e.g. engagement tags).
+  // Dot-path to a `string[]` field within the CV (e.g. engagement tags).
   name: string;
+  label?: string;
 }
 
-export function TagsInput({ name }: Props) {
+export function TagsInput({ name, label = "Tags (comma-separated)" }: Props) {
   const { control } = useFormContext<Cv>();
 
   return (
@@ -23,6 +24,7 @@ export function TagsInput({ name }: Props) {
       render={({ field }) => (
         <TagsField
           name={field.name}
+          label={label}
           initial={(field.value as string[] | undefined) ?? []}
           onBlur={field.onBlur}
           onChange={field.onChange}
@@ -34,6 +36,7 @@ export function TagsInput({ name }: Props) {
 
 interface TagsFieldProps {
   name: string;
+  label: string;
   initial: string[];
   onBlur: () => void;
   onChange: (tags: string[]) => void;
@@ -41,7 +44,7 @@ interface TagsFieldProps {
 
 // Keeps the raw text locally so a trailing comma survives while typing; the
 // parent card remounts on form reset, which re-seeds the draft.
-function TagsField({ name, initial, onBlur, onChange }: TagsFieldProps) {
+function TagsField({ name, label, initial, onBlur, onChange }: TagsFieldProps) {
   const [draft, setDraft] = useState(initial.join(", "));
 
   return (
@@ -53,7 +56,7 @@ function TagsField({ name, initial, onBlur, onChange }: TagsFieldProps) {
         setDraft(e.target.value);
         onChange(splitList(e.target.value));
       }}
-      label="Tags (comma-separated)"
+      label={label}
     />
   );
 }

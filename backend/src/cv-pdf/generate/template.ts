@@ -51,6 +51,16 @@ function tags(items: string[] | undefined): string {
     : "";
 }
 
+function stack(items: string[] | undefined): string {
+  const names = items?.map((s) => s.trim()).filter(Boolean);
+
+  return names?.length
+    ? `<p class="stack"><span class="stack-label">Stack:</span> ${names
+        .map(esc)
+        .join(", ")}</p>`
+    : "";
+}
+
 function stripScheme(url: string): string {
   return url.replace(/^https?:\/\//, "");
 }
@@ -73,6 +83,7 @@ function engagement(e: Engagement): string {
     <span class="engagement-duration">${esc(e.duration)}</span>
   </div>
   ${highlights(e.highlights)}
+  ${stack(e.stack)}
 </div>`;
 }
 
@@ -100,6 +111,7 @@ function roleEntry(entry: RoleEntry): string {
     <span class="entry-dates">${esc(entry.start)} - ${esc(entry.end)}</span>
   </div>
   ${highlights(entry.highlights)}
+  ${stack(entry.stack)}
 </div>`;
 }
 
@@ -143,6 +155,7 @@ function project(p: Project): string {
     }
   </div>
   ${highlights(p.highlights)}
+  ${stack(p.stack)}
 </div>`;
 }
 

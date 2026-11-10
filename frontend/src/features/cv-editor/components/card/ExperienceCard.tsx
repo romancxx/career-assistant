@@ -54,6 +54,10 @@ export function ExperienceCard({ index, kind }: Props) {
         </div>
 
         <HighlightsArray name={`experience.${index}.highlights`} />
+
+        <div className="mt-3">
+          <TagsInput name={`experience.${index}.stack`} label="Stack (comma-separated)" />
+        </div>
       </div>
     );
   }

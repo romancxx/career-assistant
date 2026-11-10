@@ -9,7 +9,7 @@ import { RemoveBtn } from "@/features/cv-editor/components/input/RemoveBtn";
 import { TagsInput } from "@/features/cv-editor/components/input/TagsInput";
 import { FieldInput } from "@/components/input/FieldInput";
 
-const EMPTY_PROJECT = { name: "", tags: [], link: "", highlights: [] };
+const EMPTY_PROJECT = { name: "", tags: [], link: "", highlights: [], stack: [] };
 
 export function ProjectsForm() {
   const {
@@ -54,6 +54,10 @@ export function ProjectsForm() {
             <TagsInput name={`projects.${i}.tags`} />
 
             <HighlightsArray name={`projects.${i}.highlights`} />
+
+            <div className="mt-3">
+              <TagsInput name={`projects.${i}.stack`} label="Stack (comma-separated)" />
+            </div>
           </div>
         ))}
 

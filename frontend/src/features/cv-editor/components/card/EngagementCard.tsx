@@ -41,6 +41,10 @@ export function EngagementCard({ experienceIndex, index }: Props) {
       </div>
 
       <HighlightsArray name={`${base}.highlights`} />
+
+      <div className="mt-3">
+        <TagsInput name={`${base}.stack`} label="Stack (comma-separated)" />
+      </div>
     </div>
   );
 }

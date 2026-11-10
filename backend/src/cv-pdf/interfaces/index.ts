@@ -46,6 +46,7 @@ export interface Engagement {
   duration: string;
   tags?: string[];
   highlights: string[];
+  stack?: string[];
 }
 
 export interface RoleEntry {
@@ -57,6 +58,7 @@ export interface RoleEntry {
   end: string;
   tags?: string[];
   highlights: string[];
+  stack?: string[];
 }
 
 export interface Project {
@@ -64,6 +66,7 @@ export interface Project {
   tags?: string[];
   link?: string;
   highlights: string[];
+  stack?: string[];
 }
 
 export interface SkillGroup {

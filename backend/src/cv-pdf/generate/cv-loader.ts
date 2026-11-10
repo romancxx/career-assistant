@@ -133,6 +133,16 @@ function assertProject(project: Project, i: number): void {
   if (!Array.isArray(project.highlights)) {
     throw new Error(`Invalid CV data: ${at}.highlights must be an array`);
   }
+  assertStack(project.stack, at);
+}
+
+function assertStack(stack: unknown, at: string): void {
+  if (
+    stack !== undefined &&
+    (!Array.isArray(stack) || !stack.every((s) => typeof s === "string"))
+  ) {
+    throw new Error(`Invalid CV data: ${at}.stack must be an array of strings`);
+  }
 }
 
 function assertExperience(entry: ExperienceEntry, i: number): void {
@@ -141,10 +151,14 @@ function assertExperience(entry: ExperienceEntry, i: number): void {
     if (!Array.isArray(entry.engagements) || entry.engagements.length === 0) {
       throw new Error(`Invalid CV data: ${at}.engagements must be non-empty`);
     }
+    entry.engagements.forEach((e, j) =>
+      assertStack(e.stack, `${at}.engagements[${j}]`),
+    );
   } else if (entry.kind === "role") {
     if (!entry.company) {
       throw new Error(`Invalid CV data: ${at}.company is required`);
     }
+    assertStack(entry.stack, at);
   } else {
     throw new Error(`Invalid CV data: ${at}.kind must be "grouped" or "role"`);
   }

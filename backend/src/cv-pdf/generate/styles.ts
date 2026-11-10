@@ -137,11 +137,21 @@ ENTRIES — shared by experience and projects
 .entry-title { font-size: 11pt; font-weight: 700; }
 .entry-dates { font-size: 10pt; font-weight: 700; white-space: nowrap; }
 
-/* tags trail the title inline, in parentheses, lighter than the title */
 .tags { font-weight: 400; color: #555; }
 
 ul.highlights { list-style: disc; padding-left: 18px; margin-top: 2px; font-size: 10pt; line-height: 1.3; }
 ul.highlights li { margin-bottom: 2.5px; break-inside: avoid; }
+
+
+.stack {
+  margin-top: 1px;
+  font-size: 10pt;
+  line-height: 1.3;
+  color: #555;
+  break-before: avoid;
+  break-inside: avoid;
+}
+.stack-label { font-weight: 700; }
 
 /**
 EXPERIENCE — grouped entries and their engagements
